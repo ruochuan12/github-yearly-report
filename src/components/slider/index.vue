@@ -4,6 +4,9 @@
       <swiper-slide class="swiper-item">
         <info></info>
       </swiper-slide>
+      <swiper-slide class="swiper-item">
+        <repos-total></repos-total>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
@@ -13,12 +16,14 @@
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/info/index.vue';
+import ReposTotal from '@/components/repos/total.vue';
 
 @Component({
   components: {
-    Info,
     swiper,
     swiperSlide,
+    Info,
+    ReposTotal,
   },
 })
 export default class MySlider extends Vue {

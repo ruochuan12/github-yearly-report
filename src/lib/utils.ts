@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { TIMEOUT, YEAR_START, YEAR_END } from '@/lib/constant';
+import { TIMEOUT, YEAR_START, YEAR_END, YEAR_LAST } from '@/lib/constant';
 
 export const qs = () => {
   const { href } = window.location;
@@ -47,4 +47,26 @@ export const inStartEndYear = (date: string) => {
   const start = dayjs(YEAR_START);
   const end = dayjs(YEAR_END);
   return temp.isBefore(end, 'day') && temp.isAfter(start, 'day');
+};
+
+export const inLastStartYear = (date: string) => {
+  const temp = dayjs(date);
+  const start = dayjs(YEAR_LAST);
+  const end = dayjs(YEAR_START);
+  return temp.isBefore(end, 'day') && temp.isAfter(start, 'day');
+};
+
+export const toPercent = (point: number) => {
+  const str = `${Number(point * 100).toFixed(2)}%`;
+  return str;
+};
+
+export const compareYearData = (year: any, lastYear: any) => {
+  let result = '';
+  if (year === lastYear) {
+    result = '今年和去年持平';
+  } else {
+    result = `${year > lastYear ? '同比增长' : '同比减少'} ${toPercent((year - lastYear) / lastYear)}，继续加油`;
+  }
+  return result;
 };

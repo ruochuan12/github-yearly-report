@@ -1,9 +1,12 @@
-export const YEAR = 2019;
+export const COLORS = ['#264f87', '#F29D39', '#B7C7D4'];
+
+export const YEAR_LAST_FORMAT = 2018;
+export const YEAR_START_FORMAT = 2019;
+export const YEAR_LAST = new Date('2018-01-01');
 export const YEAR_START = new Date('2019-01-01');
 export const YEAR_END = new Date('2020-01-01');
 export const ONE_HOUR = 1000 * 60 * 60;
 export const ONE_DAY = 1000 * 60 * 60 * 24;
-
 
 export const CLIENT_ID = 'd91686b028f8cc13205f';
 export const CLIENT_SECRET = '3bcf7179c504ac7d74b726f36842815999c4722a';

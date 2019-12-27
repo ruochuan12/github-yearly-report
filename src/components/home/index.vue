@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { YEAR, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
+import { YEAR_START_FORMAT, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
 import { qs } from '@/lib/utils';
 import { login, fetchToken, authenticate } from '@/lib/auth';
 import { updateState, fetchAll } from '@/store';
@@ -28,7 +28,7 @@ import { updateState, fetchAll } from '@/store';
 })
 export default class Home extends Vue {
   status: number = HOME_STATUS.INIT;
-  year: number = YEAR;
+  year: number = YEAR_START_FORMAT;
   toAxuebinPage() {
     window.location.href = 'https://github.com/axuebin';
   }

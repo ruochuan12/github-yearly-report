@@ -43,7 +43,8 @@ export interface REPOS_INFO {
   language?: ANY_OBJECT
   maxIssues?: REPO
   createds?: number
-  updateds?: number
   dayEarliest?: REPO
   dayLatest?: REPO
+  lastYearCreateds?: number
+  latest?: REPO
 }

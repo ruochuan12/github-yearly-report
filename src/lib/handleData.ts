@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { REPO } from '@/api/interface';
-import { pick, inStartEndYear } from './utils';
+import { pick, inStartEndYear, inLastStartYear } from './utils';
 import { REPOS_PICK_KEYS } from './constant';
 
-interface LANGUAGE {
+interface ANY_OBJECT {
   [propName: string]: number
 }
 
@@ -16,15 +16,18 @@ export const handleReposData = (repos: REPO[]) => {
   let forksResult = 0;
   let forkedResult = 0;
   let openIssuesResult = 0;
-  let createdsResult = 0;
-  let updatedsResult = 0;
-  const languageResult: LANGUAGE = {};
+  let lastyearCreatedResult = 0;
+  let toyearCreatedsResult = 0;
+
+  const languageResult: ANY_OBJECT = {};
   let maxIssueCount = 0;
   let maxIssueIndex = 0;
   let dayEarliestTime = 0;
   let dayEarliestIndex = 0;
   let dayLatestTime = 0;
   let dayLatestIndex = 0;
+  let latestUpdateTime = 0;
+  let latestUpdateIndex = 0;
 
   const result = repos.map((repo: REPO, index: number) => {
     const repoTemp = pick(repo, REPOS_PICK_KEYS);
@@ -39,21 +42,31 @@ export const handleReposData = (repos: REPO[]) => {
       forksResult += 1;
     }
 
+    if (inLastStartYear(created_at)) {
+      lastyearCreatedResult += 1;
+    }
+
     if (inStartEndYear(created_at)) {
-      createdsResult += 1;
+      toyearCreatedsResult += 1;
     }
 
     if (inStartEndYear(updated_at)) {
-      updatedsResult += 1;
       if (index === 0) {
         dayEarliestTime = updated_at;
         dayLatestTime = updated_at;
-      } else if (dayjs(updated_at).isBefore(dayjs(dayEarliestTime, 'second'))) {
+        latestUpdateTime = updated_at;
+      }
+      if (dayjs(updated_at).isBefore(dayjs(dayEarliestTime, 'second'))) {
         dayEarliestTime = updated_at;
         dayEarliestIndex = index;
-      } else if (dayjs(updated_at).isAfter(dayjs(dayLatestTime, 'second'))) {
+      }
+      if (dayjs(updated_at).isAfter(dayjs(dayLatestTime, 'second'))) {
         dayLatestTime = updated_at;
         dayLatestIndex = index;
+      }
+      if (dayjs(updated_at).isAfter(dayjs(dayLatestTime, 'second'))) {
+        latestUpdateTime = updated_at;
+        latestUpdateIndex = index;
       }
     }
 
@@ -67,16 +80,17 @@ export const handleReposData = (repos: REPO[]) => {
 
   const all = {
     repos: result, // 所有仓库
+    lastYearCreateds: lastyearCreatedResult, // 去年创建的仓库
+    createds: toyearCreatedsResult, // 本年新创建的仓库
+    latest: result[latestUpdateIndex], // 最近在更新的仓库
     stars: starsResult, // 点赞你的总数
     forks: forksResult, // 你 fork 总数
     forked: forkedResult, // fork 你的总数
     openIssues: openIssuesResult, // 打开的 issues 数
-    language: languageResult, // 语言
     maxIssues: result[maxIssueIndex], // open issues 最多的仓库
-    createds: createdsResult, // 本年新创建的仓库
-    updateds: updatedsResult, // 本年有更新过的仓库
     dayEarliest: result[dayEarliestIndex], // 每天最早的 update
     dayLatest: result[dayLatestIndex], // 每天最迟的 update
+    language: languageResult, // 语言
   };
   return all;
 };

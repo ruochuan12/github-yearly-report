@@ -5,3 +5,7 @@ declare module '*.vue' {
 }
 
 declare module 'vue-awesome-swiper';
+declare module 'vue-echarts' {
+  const ECharts: any;
+  export default ECharts;
+}

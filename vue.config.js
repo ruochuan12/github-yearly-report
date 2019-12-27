@@ -3,6 +3,10 @@ const tsImportPluginFactory = require('ts-import-plugin');
 
 module.exports = {
   parallel: false,
+  transpileDependencies: [
+    'vue-echarts',
+    'resize-detector',
+  ],
   chainWebpack: config => {
     config.module
       .rule('ts')
