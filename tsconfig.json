@@ -9,6 +9,7 @@
     "experimentalDecorators": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
+    "strictPropertyInitialization": false,
     "sourceMap": true,
     "baseUrl": ".",
     "paths": {
@@ -25,7 +26,7 @@
     "typeRoots": [
       "./node_modules/@types/webpack-env",
       "./node_modules/@types/node",
-      "./node_modules/@octokit/rest",
+      "./node_modules/@octokit/rest"
     ]
   },
   "include": [
@@ -37,5 +38,5 @@
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }

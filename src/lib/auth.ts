@@ -24,7 +24,7 @@ export const fetchToken = async (code: string) => {
     client_secret: CLIENT_SECRET,
   }).then(res => {
     const token = res.access_token;
-    localStorage.setItem(GITHUB_TOKEN, token);
+    sessionStorage.setItem(GITHUB_TOKEN, token);
   }).catch(() => {});
 };
 
@@ -33,5 +33,5 @@ export const fetchToken = async (code: string) => {
  * @returns Octokit 实例对象
  */
 export const authenticate = () => new Octokit({
-  auth: localStorage.getItem(GITHUB_TOKEN) || '',
+  auth: sessionStorage.getItem(GITHUB_TOKEN) || '',
 });

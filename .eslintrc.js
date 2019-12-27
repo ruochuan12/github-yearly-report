@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   env: {
-    node: true,
+    node: true
   },
   extends: [
     'plugin:vue/essential',
@@ -42,7 +42,8 @@ module.exports = {
       {
         "ignore": ['components/']
       }
-    ]
+    ],
+    "import/no-extraneous-dependencies": "off",
   },
   parserOptions: {
     parser: '@typescript-eslint/parser',

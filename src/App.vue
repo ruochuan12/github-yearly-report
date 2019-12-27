@@ -2,7 +2,10 @@
   <div id="app">
     <home v-if="status === HOME_STATUS.INIT || status === HOME_STATUS.BEGIN"></home>
     <my-slider v-if="status === HOME_STATUS.FINISH"></my-slider>
-    <div v-if="status === HOME_STATUS.ERROR"></div>
+    <div v-if="status === HOME_STATUS.ERROR">
+      不好意思，访问 GitHub 出错了，请重试 ~
+    </div>
+    <my-slider></my-slider>
 
     <van-overlay :show="loading" @click="closeLoading">
       <div class="wrapper" @click.stop>
@@ -17,7 +20,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import Home from '@/components/home/index.vue';
 import MySlider from '@/components/slider/index.vue';
 import { HOME_STATUS } from '@/lib/constant';
-import app, { mapState } from '@/store';
+import store from '@/store';
 
 @Component({
   components: {
@@ -29,7 +32,7 @@ export default class App extends Vue {
   loading: boolean = false
   HOME_STATUS = HOME_STATUS;
   get status() {
-    return app.status;
+    return store.status;
   }
   @Watch('status')
   onWatchStatus() {

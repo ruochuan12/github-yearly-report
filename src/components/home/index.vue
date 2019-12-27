@@ -20,21 +20,20 @@ import { Component, Vue } from 'vue-property-decorator';
 import { YEAR, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
 import { qs } from '@/lib/utils';
 import { login, fetchToken, authenticate } from '@/lib/auth';
-import { updateState } from '@/store';
+import { updateState, fetchAll, fetchUserInfo } from '@/store';
 
 @Component({
   components: {
   },
 })
 export default class Home extends Vue {
-  octokit: any = null;
   status: number = HOME_STATUS.INIT;
   year: number = YEAR;
   toAxuebinPage() {
     window.location.href = 'https://github.com/axuebin';
   }
   async go() {
-    const token = window.localStorage.getItem(GITHUB_TOKEN);
+    const token = window.sessionStorage.getItem(GITHUB_TOKEN);
     if (!token) {
       const { code } = qs();
       if (!code) {
@@ -42,12 +41,14 @@ export default class Home extends Vue {
         return;
       }
       await fetchToken(code);
-      localStorage.setItem(GITHUB_CODE, code);
+      sessionStorage.setItem(GITHUB_CODE, code);
       window.location.href = '/';
       return;
     }
     updateState({ status: HOME_STATUS.BEGIN });
-    this.octokit = await authenticate();
+    const octokit = await authenticate();
+    await fetchUserInfo(octokit);
+    fetchAll(octokit);
   }
 }
 </script>

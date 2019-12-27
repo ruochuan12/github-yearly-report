@@ -12,17 +12,22 @@ p {
   margin: 0;
 }
 
-html, body, .app {
+html, body, #app {
   height: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
   background-color: #F5F5F5;
 }
 
-.app {
-  width: 375px;
-}
-
 .iphonex {
   padding-bottom: 34px;
+}
+
+.swiper-pagination-progressbar-fill {
+  background: #264f87 !important;
+}
+
+.swiper-pagination-progressbar {
+  left: auto !important;
+  right: 0 !important;
 }

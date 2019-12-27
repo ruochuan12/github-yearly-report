@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {
-  YEAR_START,
+  YEAR_START, HOME_STATUS,
 } from '@/lib/constant';
 import {
   fetchIssuesService,
@@ -9,18 +9,17 @@ import {
   fetchUserInfoService,
   fetchPublicEventsService,
 } from '@/api/service';
+import { USERINFO } from '@/api/interface';
 
 interface STORE {
-  userInfo?: any
-  issues?: any[],
-  code: string
-  status: number
+  userInfo?: USERINFO
+  issues?: any[]
+  status?: number
 }
 
-const app = new Vue({
+const app = new Vue<STORE>({
   data: {
     userInfo: {},
-    code: '',
     status: 0,
   },
 });
@@ -46,23 +45,24 @@ export const updateState = (payload: ANY_OBJECT) => {
 };
 
 export const fetchUserInfo = async (octokit: any) => {
-  const userInfo: any = [];
-  const res = await fetchUserInfoService(octokit);
-  st.userInfo = userInfo;
+  try {
+    const res = await fetchUserInfoService(octokit);
+    if (+res.status === 200) {
+      st.userInfo = res.data;
+    }
+  } catch (e) {
+    st.status = HOME_STATUS.ERROR;
+  }
 };
 
-export const fetchIssues = async (octokit: any) => {
-  const issues: any = [];
-  const res = await fetchIssuesService(octokit, {
-    filter: 'all',
-    state: 'all',
-    sort: 'created',
-    since: YEAR_START.toISOString(),
-    per_page: 100,
-    page: 1,
-  });
-  st.issues = issues;
-};
+export const fetchIssues = async (octokit: any) => fetchIssuesService(octokit, {
+  filter: 'all',
+  state: 'all',
+  sort: 'created',
+  since: YEAR_START.toISOString(),
+  per_page: 100,
+  page: 1,
+});
 
 export const fetchStars = async (octokit: any) => {
   const stars: any = [];
@@ -78,6 +78,17 @@ export const fetchPublicEvents = async (octokit: any) => {
   const publicEvents: any = [];
   const res = await fetchPublicEventsService(octokit);
   st.publicEvents = publicEvents;
+};
+
+export const fetchAll = async (octokit: any) => {
+  // const all = [
+  //   // fetchIssues(octokit),
+  // ];
+  // const results = await Promise.all(all);
+  st.status = HOME_STATUS.FINISH;
+  // results.forEach(item => {
+  //   console.log(item);
+  // });
 };
 
 export default app;

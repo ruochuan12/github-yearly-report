@@ -61,6 +61,6 @@ export const fetchPublicEventsService = async (
   payload = {},
 ): Promise<any> => {
   const { activity } = octokit;
-  const response = await activity.listPublicEvents(payload);
+  const response = await activity.listPublicEventsForUser(payload);
   return response;
 };
