@@ -1,3 +1,7 @@
+interface ANY_OBJECT {
+  [propName: string]: any;
+}
+
 export interface USERINFO {
   login?: string
   id?: number
@@ -28,4 +32,18 @@ export interface REPO {
   forks?: number
   watchers?: number
   [propName: string]: any
+}
+
+export interface REPOS_INFO {
+  repos?: REPO[]
+  stars?: number
+  forks?: number
+  forked?: number
+  openIssues?: number
+  language?: ANY_OBJECT
+  maxIssues?: REPO
+  createds?: number
+  updateds?: number
+  dayEarliest?: REPO
+  dayLatest?: REPO
 }

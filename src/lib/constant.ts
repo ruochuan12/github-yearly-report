@@ -1,11 +1,16 @@
 export const YEAR = 2019;
 export const YEAR_START = new Date('2019-01-01');
 export const YEAR_END = new Date('2020-01-01');
+export const ONE_HOUR = 1000 * 60 * 60;
+export const ONE_DAY = 1000 * 60 * 60 * 24;
+
+
 export const CLIENT_ID = 'd91686b028f8cc13205f';
 export const CLIENT_SECRET = '3bcf7179c504ac7d74b726f36842815999c4722a';
 
-export const GITHUB_TOKEN = 'YEARLY_REPORT_GITHUB_TOKEN';
-export const GITHUB_CODE = 'YEARLY_REPORT_GITHUB_CODE';
+export const GITHUB_YEARLY_REPORT_PRE = 'GITHUB_YEARLY_REPORT';
+export const GITHUB_TOKEN = `${GITHUB_YEARLY_REPORT_PRE}_GITHUB_TOKEN`;
+export const GITHUB_CODE = `${GITHUB_YEARLY_REPORT_PRE}_GITHUB_CODE`;
 
 export const HOME_STATUS = {
   INIT: 0, // 初始状态

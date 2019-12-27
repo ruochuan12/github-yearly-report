@@ -1,14 +1,16 @@
 import Vue from 'vue';
 
 import {
-  YEAR_START, HOME_STATUS,
+  YEAR_START, HOME_STATUS, GITHUB_YEARLY_REPORT_PRE, ONE_HOUR, ONE_DAY,
 } from '@/lib/constant';
-import { USERINFO, REPO } from '@/api/interface';
+import { USERINFO, REPO, REPOS_INFO } from '@/api/interface';
 import { timeoutFn } from './lib/utils';
 import { handleReposData } from '@/lib/handleData';
+import { getStorage, setStorage } from './lib/storage';
 
 interface STORE {
   userInfo?: USERINFO
+  reposInfo?: REPOS_INFO
   issues?: any[]
   status?: number
 }
@@ -17,6 +19,7 @@ const app = new Vue<STORE>({
   data: {
     userInfo: {},
     status: 0,
+    reposInfo: {},
   },
 });
 
@@ -41,41 +44,54 @@ export const updateState = (payload: ANY_OBJECT) => {
 };
 
 export const fetchUserInfo = async (octokit: any) => {
-  const { users } = octokit;
-  const res = await timeoutFn(users.getAuthenticated());
-  if (+res.status === 200) {
-    st.userInfo = res.data;
+  const userInfoStorage = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_USERINFO`);
+  if (userInfoStorage) {
+    st.userInfo = userInfoStorage;
+  } else {
+    const { users } = octokit;
+    const res = await timeoutFn(users.getAuthenticated());
+    if (+res.status === 200) {
+      st.userInfo = res.data;
+      setStorage(`${GITHUB_YEARLY_REPORT_PRE}_USERINFO`, res.data, ONE_DAY);
+    }
   }
 };
 
-export const fetchRepos = async (octokit: any) => {
-  const { repos } = octokit;
-  let originalReposData: REPO[] = [];
-  let pageNo: number = 1;
-  let hasNext: boolean = true;
-  const fn = async (page: number) => {
-    const res = await repos.list({
-      visibility: 'all',
-      sort: 'updated',
-      per_page: 100,
-      page,
-    });
-    const { status, data } = res;
-    if (+status !== 200) {
-      throw new Error('莫名其妙的错误');
+export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) => {
+  const reposStorage = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_REPOS`);
+  if (reposStorage) {
+    st.reposInfo = reposStorage;
+  } else {
+    const { repos } = octokit;
+    let originalReposData: REPO[] = [];
+    let pageNo: number = 1;
+    let hasNext: boolean = true;
+    const fn = async (page: number) => {
+      const res = await repos.list({
+        visibility: 'all',
+        sort: 'updated',
+        per_page: 100,
+        page,
+      });
+      const { status, data } = res;
+      if (+status !== 200) {
+        reject();
+      }
+      pageNo += 1;
+      originalReposData = originalReposData.concat(data);
+      if (data && data.length === 0) {
+        hasNext = false;
+      }
+    };
+    while (pageNo === 1 || hasNext) {
+      await fn(pageNo); // eslint-disable-line
     }
-    pageNo += 1;
-    originalReposData = originalReposData.concat(data);
-    if (data.length === 0) {
-      hasNext = false;
-    }
-  };
-  while (pageNo === 1 || hasNext) {
-    await fn(pageNo); // eslint-disable-line
+    const reposHandleResult = handleReposData(originalReposData);
+    st.reposInfo = reposHandleResult;
+    setStorage(`${GITHUB_YEARLY_REPORT_PRE}_REPOS`, reposHandleResult, ONE_HOUR);
   }
-  const reposHandleResult = handleReposData(originalReposData);
-  console.log(reposHandleResult);
-};
+  resolve();
+});
 
 export const fetchIssues = async (octokit: any) => {
   const { issues } = octokit;
@@ -103,7 +119,7 @@ export const fetchStars = async (octokit: any) => {
 
 export const fetchAll = async (octokit: any) => {
   try {
-    // await fetchUserInfo(octokit);
+    await fetchUserInfo(octokit);
     const all = [
       fetchRepos(octokit),
     ];
