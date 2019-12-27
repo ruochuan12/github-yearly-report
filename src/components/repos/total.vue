@@ -5,13 +5,13 @@
       <div class="container">
         <card>
           <div slot="body" class="repos-total-cell">
-            <div class="key">我有几个仓库</div>
+            <div class="key">你有几个仓库</div>
             <div class="value">{{reposInfo.repos ? reposInfo.repos.length : 0}}</div>
           </div>
         </card>
         <card>
           <div slot="body" class="repos-total-cell">
-            <div class="key">创建了几个仓库</div>
+            <div class="key">今年你创建了几个仓库</div>
             <div class="tip">
               {{createdCompare}}
             </div>
@@ -22,7 +22,7 @@
         </card>
         <card>
           <div slot="body" class="repos-total-cell">
-            <div class="key">最近忙于</div>
+            <div class="key">你最近忙于这个仓库</div>
             <div class="tip">
               坚持就是胜利
             </div>
