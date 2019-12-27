@@ -20,7 +20,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { YEAR, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
 import { qs } from '@/lib/utils';
 import { login, fetchToken, authenticate } from '@/lib/auth';
-import { updateState, fetchAll, fetchUserInfo } from '@/store';
+import { updateState, fetchAll } from '@/store';
 
 @Component({
   components: {
@@ -47,7 +47,6 @@ export default class Home extends Vue {
     }
     updateState({ status: HOME_STATUS.BEGIN });
     const octokit = await authenticate();
-    await fetchUserInfo(octokit);
     fetchAll(octokit);
   }
 }

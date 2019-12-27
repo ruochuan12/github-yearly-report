@@ -13,3 +13,17 @@ export const HOME_STATUS = {
   FINISH: 2, // 结束生成数据
   ERROR: -1, // 出错
 };
+
+export const TIMEOUT = 3000;
+
+export const REPOS_PICK_KEYS: string[] = [
+  'name', // 项目名
+  'description', // 项目描述
+  'fork', // 是否是 fork 别人的
+  'created_at', // 创建时间
+  'updated_at', // 更新时间
+  'stargazers_count', // star 数
+  'language', // 主要语言
+  'forks_count', // fork 数
+  'open_issues', // 打开的 issue 数
+];

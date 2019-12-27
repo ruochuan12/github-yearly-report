@@ -5,11 +5,10 @@
     <div v-if="status === HOME_STATUS.ERROR">
       不好意思，访问 GitHub 出错了，请重试 ~
     </div>
-    <my-slider></my-slider>
 
     <van-overlay :show="loading" @click="closeLoading">
       <div class="wrapper" @click.stop>
-        <van-loading size="24px" vertical v-if="loading">正在生成数据...</van-loading>
+        <van-loading size="24px" vertical v-if="loading">正在生成数据(挺慢的)...</van-loading>
       </div>
     </van-overlay>
   </div>
