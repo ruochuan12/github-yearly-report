@@ -20,6 +20,7 @@ export interface USERINFO {
 
 export interface REPO {
   name?: string
+  full_name?: string
   description?: string
   fork?: boolean
   created_at?: string
@@ -47,4 +48,10 @@ export interface REPOS_INFO {
   dayLatest?: REPO
   lastYearCreateds?: number
   latest?: REPO
+}
+
+export interface STARS_INFO {
+  stars?: REPO[]
+  language?: ANY_OBJECT
+  mostStars?: REPO[]
 }

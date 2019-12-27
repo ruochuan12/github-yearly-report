@@ -3,7 +3,7 @@ import Vue from 'vue';
 import {
   YEAR_START, HOME_STATUS, GITHUB_YEARLY_REPORT_PRE, ONE_HOUR, ONE_DAY,
 } from '@/lib/constant';
-import { USERINFO, REPO, REPOS_INFO } from '@/api/interface';
+import { USERINFO, REPO, REPOS_INFO, STARS_INFO } from '@/api/interface';
 import { timeoutFn } from './lib/utils';
 import { handleReposData, handleStarsData } from '@/lib/handleData';
 import { getStorage, setStorage } from './lib/storage';
@@ -13,7 +13,7 @@ interface STORE {
   reposInfo?: REPOS_INFO
   issues?: any[]
   status?: number
-  starsInfo?: any
+  starsInfo?: STARS_INFO
 }
 
 const app = new Vue<STORE>({

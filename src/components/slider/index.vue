@@ -7,11 +7,11 @@
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
         <repos-total></repos-total>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0">
-        <stars></stars>
-      </swiper-slide>
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
-        <forks></forks>
+        <star></star>
+      </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0">
+        <stared></stared>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
@@ -23,9 +23,9 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
 import ReposTotal from '@/components/Repos/index.vue';
-import Stars from '@/components/Stars/index.vue';
-import Forks from '@/components/Forks/index.vue';
-import { REPOS_INFO, USERINFO } from '@/api/interface';
+import Star from '@/components/Star/index.vue';
+import Stared from '@/components/Stared/index.vue';
+import { REPOS_INFO, USERINFO, STARS_INFO } from '@/api/interface';
 import store from '@/store';
 
 @Component({
@@ -34,8 +34,8 @@ import store from '@/store';
     swiperSlide,
     Info,
     ReposTotal,
-    Stars,
-    Forks,
+    Star,
+    Stared,
   },
 })
 export default class MySlider extends Vue {
@@ -45,7 +45,7 @@ export default class MySlider extends Vue {
   get reposInfo(): REPOS_INFO {
     return store.reposInfo || {};
   }
-  get starsInfo(): REPOS_INFO {
+  get starsInfo(): STARS_INFO {
     return store.starsInfo || {};
   }
   swiperOption = {

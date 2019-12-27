@@ -26,8 +26,8 @@
             <div class="tip">
               坚持就是胜利
             </div>
-            <div class="value">
-              {{latestUpdatedRepo.name || ''}}
+            <div class="value name">
+              {{latestUpdatedRepo.full_name || ''}}
             </div>
           </div>
         </card>
@@ -37,8 +37,8 @@
             <div class="tip">
               最好不要弃坑哦~
             </div>
-            <div class="value">
-              {{maxIssueRepo.name || ''}}
+            <div class="value name">
+              {{maxIssueRepo.full_name || ''}}
             </div>
           </div>
         </card>
@@ -86,7 +86,7 @@ export default class ReposTotal extends Vue {
       top: 10,
       left: '3%',
       right: '4%',
-      bottom: 10,
+      bottom: 0,
       containLabel: true,
     },
     series: [
@@ -166,6 +166,9 @@ export default class ReposTotal extends Vue {
         font-weight: bold;
         color: $MAIN_TEXT_COLOR;
       }
+      .name {
+        font-size: 22px;
+      }
       .tip {
         margin-top: 6px;
         font-size: 12px;
@@ -174,7 +177,7 @@ export default class ReposTotal extends Vue {
     }
     &-created {
       width: 100%;
-      height: 110px;
+      height: 100px;
     }
   }
 }

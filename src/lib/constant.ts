@@ -41,7 +41,7 @@ export const HOME_STATUS = {
 export const TIMEOUT = 3000;
 
 export const REPOS_PICK_KEYS: string[] = [
-  'name', // 项目名
+  'full_name', // 项目名
   'description', // 项目描述
   'fork', // 是否是 fork 别人的
   'created_at', // 创建时间

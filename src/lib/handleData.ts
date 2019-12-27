@@ -13,8 +13,6 @@ interface ANY_OBJECT {
  */
 export const handleReposData = (repos: REPO[]) => {
   let starsResult = 0;
-  let forksResult = 0;
-  let forkedResult = 0;
   let openIssuesResult = 0;
   let lastyearCreatedResult = 0;
   let toyearCreatedsResult = 0;
@@ -31,16 +29,11 @@ export const handleReposData = (repos: REPO[]) => {
 
   const result = repos.map((repo: REPO, index: number) => {
     const repoTemp = pick(repo, REPOS_PICK_KEYS);
-    const { fork, stargazers_count, forks_count, open_issues, created_at, updated_at } = repoTemp;
+    const { stargazers_count, open_issues, created_at, updated_at } = repoTemp;
     const language = repoTemp.language || 'other';
     starsResult += stargazers_count;
-    forkedResult += forks_count;
     openIssuesResult += open_issues;
     languageResult[language] = languageResult[language] ? languageResult[language] + 1 : 1;
-
-    if (fork) {
-      forksResult += 1;
-    }
 
     if (inLastStartYear(created_at)) {
       lastyearCreatedResult += 1;
@@ -84,13 +77,12 @@ export const handleReposData = (repos: REPO[]) => {
     createds: toyearCreatedsResult, // 本年新创建的仓库
     latest: result[latestUpdateIndex], // 最近在更新的仓库
     stars: starsResult, // 点赞你的总数
-    forks: forksResult, // 你 fork 总数
-    forked: forkedResult, // fork 你的总数
     openIssues: openIssuesResult, // 打开的 issues 数
     maxIssues: result[maxIssueIndex], // open issues 最多的仓库
     dayEarliest: result[dayEarliestIndex], // 每天最早的 update
     dayLatest: result[dayLatestIndex], // 每天最迟的 update
     language: languageResult, // 语言
+    mostStars: result.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count).slice(0, 5), // 点赞最多的 top 5
   };
   return all;
 };
@@ -111,7 +103,8 @@ export const handleStarsData = (repos: REPO[]) => {
     return repoTemp;
   });
   return {
-    stars: result,
-    language: languageResult,
+    stars: result, // 所有点赞
+    language: languageResult, // 语言分布
+    mostStars: result.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count).slice(0, 5), // 点赞最多的 top 5
   };
 };
