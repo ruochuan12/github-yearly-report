@@ -16,8 +16,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import Home from '@/components/home/index.vue';
-import MySlider from '@/components/slider/index.vue';
+import Home from '@/components/Home/index.vue';
+import MySlider from '@/components/Slider/index.vue';
 import { HOME_STATUS } from '@/lib/constant';
 import store from '@/store';
 

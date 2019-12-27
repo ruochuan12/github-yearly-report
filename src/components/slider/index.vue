@@ -15,8 +15,8 @@
 <script lang="ts">
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
-import Info from '@/components/info/index.vue';
-import ReposTotal from '@/components/repos/total.vue';
+import Info from '@/components/Info/index.vue';
+import ReposTotal from '@/components/Repos/index.vue';
 import { REPOS_INFO, USERINFO } from '@/api/interface';
 import store from '@/store';
 
