@@ -1,0 +1,55 @@
+<template>
+  <div class="home">
+    <div class="container">
+      <img class="logo" src="@/assets/img/logo.png"/>
+      <div class="year">{{year}}</div>
+      <div class="title">年度数据报告</div>
+      <div class="sub-title">From Github</div>
+      <div class="lucky-btn" @click="go">开启时光机</div>
+      <div class="tip">静态托管 GitHub Pages，放心食用</div>
+    </div>
+    <div class="me" @click="toAxuebinPage">
+      <img class="avatar" src="@/assets/img/avatar.png"/>
+      <span class="name">Design/Code By axuebin</span>
+    </div>
+  </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import { YEAR, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
+import { qs } from '@/lib/utils';
+import { login, fetchToken, authenticate } from '@/lib/auth';
+import { updateState } from '@/store';
+
+@Component({
+  components: {
+  },
+})
+export default class Home extends Vue {
+  octokit: any = null;
+  status: number = HOME_STATUS.INIT;
+  year: number = YEAR;
+  toAxuebinPage() {
+    window.location.href = 'https://github.com/axuebin';
+  }
+  async go() {
+    const token = window.localStorage.getItem(GITHUB_TOKEN);
+    if (!token) {
+      const { code } = qs();
+      if (!code) {
+        login();
+        return;
+      }
+      await fetchToken(code);
+      localStorage.setItem(GITHUB_CODE, code);
+      window.location.href = '/';
+      return;
+    }
+    updateState({ status: HOME_STATUS.BEGIN });
+    this.octokit = await authenticate();
+  }
+}
+</script>
+
+<style src="./index.scss" lang="scss" scoped></style>

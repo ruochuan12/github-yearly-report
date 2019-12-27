@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 import {
-  YEAR_2019,
+  YEAR_START,
 } from '@/lib/constant';
 import {
   fetchIssuesService,
@@ -10,24 +10,31 @@ import {
   fetchPublicEventsService,
 } from '@/api/service';
 
+interface STORE {
+  userInfo?: any
+  issues?: any[],
+  code: string
+  status: number
+}
+
 const app = new Vue({
   data: {
     userInfo: {},
-    issues: [],
     code: '',
+    status: 0,
   },
 });
 
 const st = app.$data;
 
 interface ANY_OBJECT {
-  [propName: string]: string;
+  [propName: string]: any;
 }
 
 export const mapState = (keys: string[]) => {
   const res: ANY_OBJECT = {};
   keys.forEach((it: string) => {
-    res[it] = st[it];
+    (res[it] as any) = () => st[it];
   });
   return res;
 };
@@ -50,7 +57,7 @@ export const fetchIssues = async (octokit: any) => {
     filter: 'all',
     state: 'all',
     sort: 'created',
-    since: YEAR_2019.toISOString(),
+    since: YEAR_START.toISOString(),
     per_page: 100,
     page: 1,
   });

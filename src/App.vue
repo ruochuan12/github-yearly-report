@@ -1,37 +1,57 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <home v-if="status === HOME_STATUS.INIT || status === HOME_STATUS.BEGIN"></home>
+    <my-slider v-if="status === HOME_STATUS.FINISH"></my-slider>
+    <div v-if="status === HOME_STATUS.ERROR"></div>
+
+    <van-overlay :show="loading" @click="closeLoading">
+      <div class="wrapper" @click.stop>
+        <van-loading size="24px" vertical v-if="loading">正在生成数据...</van-loading>
+      </div>
+    </van-overlay>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
-import { GITHUB_TOKEN, GITHUB_CODE } from '@/lib/constant';
-import { qs } from './lib/utils';
-import { login, fetchToken, authenticate } from '@/lib/auth';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import Home from '@/components/home/index.vue';
+import MySlider from '@/components/slider/index.vue';
+import { HOME_STATUS } from '@/lib/constant';
+import app, { mapState } from '@/store';
 
 @Component({
   components: {
+    Home,
+    MySlider,
   },
 })
 export default class App extends Vue {
-  octokit: any = null;
-  async mounted() {
-    const token = window.localStorage.getItem(GITHUB_TOKEN);
-    if (!token) {
-      const { code } = qs();
-      if (!code) {
-        login();
-        return;
-      }
-      await fetchToken(code);
-      localStorage.setItem(GITHUB_CODE, code);
-      window.location.href = '/';
-      return;
+  loading: boolean = false
+  HOME_STATUS = HOME_STATUS;
+  get status() {
+    return app.status;
+  }
+  @Watch('status')
+  onWatchStatus() {
+    switch (this.status) {
+    case 1: this.showLoading(); break;
+    default: this.closeLoading(); break;
     }
-    this.octokit = await authenticate();
+  }
+  showLoading() {
+    this.loading = true;
+  }
+  closeLoading() {
+    this.loading = false;
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.wrapper {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
