@@ -1,4 +1,20 @@
-export const COLORS = ['#264f87', '#F29D39', '#B7C7D4'];
+export const COLORS = [
+  '#264f87',
+  '#F29D39',
+  '#5ab1ef',
+  '#d87a80',
+  '#e5cf0d',
+  '#97b552',
+  '#95706d',
+  '#dc69aa',
+  '#07a2a4',
+  '#9a7fd1',
+  '#f5994e',
+  '#c05050',
+  '#c9ab00',
+  '#7eb00a',
+  '#c14089',
+];
 
 export const YEAR_LAST_FORMAT = 2018;
 export const YEAR_START_FORMAT = 2019;

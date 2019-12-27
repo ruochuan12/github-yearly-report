@@ -5,7 +5,7 @@ import {
 } from '@/lib/constant';
 import { USERINFO, REPO, REPOS_INFO } from '@/api/interface';
 import { timeoutFn } from './lib/utils';
-import { handleReposData } from '@/lib/handleData';
+import { handleReposData, handleStarsData } from '@/lib/handleData';
 import { getStorage, setStorage } from './lib/storage';
 
 interface STORE {
@@ -13,6 +13,7 @@ interface STORE {
   reposInfo?: REPOS_INFO
   issues?: any[]
   status?: number
+  starsInfo?: any
 }
 
 const app = new Vue<STORE>({
@@ -20,6 +21,7 @@ const app = new Vue<STORE>({
     userInfo: {},
     status: 0,
     reposInfo: {},
+    starsInfo: {},
   },
 });
 
@@ -106,22 +108,47 @@ export const fetchIssues = async (octokit: any) => {
   return response;
 };
 
-export const fetchStars = async (octokit: any) => {
-  const stars: any = [];
-  const { activity } = octokit;
-  const response = await activity.listReposStarredByAuthenticatedUser({
-    sort: 'created',
-    per_page: 100,
-    page: 1,
-  });
-  st.stars = stars;
-};
+export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) => {
+  const storageData = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_STARS`);
+  if (storageData) {
+    st.starsInfo = storageData;
+  } else {
+    const { activity } = octokit;
+    let originalData: any[] = [];
+    let pageNo: number = 1;
+    let hasNext: boolean = true;
+    const fn = async (page: number) => {
+      const res = await activity.listReposStarredByAuthenticatedUser({
+        sort: 'created',
+        per_page: 100,
+        page,
+      });
+      const { status, data } = res;
+      if (+status !== 200) {
+        reject();
+      }
+      pageNo += 1;
+      originalData = originalData.concat(data);
+      if (data && data.length === 0) {
+        hasNext = false;
+      }
+    };
+    while (pageNo === 1 || hasNext) {
+      await fn(pageNo); // eslint-disable-line
+    }
+    const handleResultData = handleStarsData(originalData);
+    st.starsInfo = handleResultData;
+    setStorage(`${GITHUB_YEARLY_REPORT_PRE}_STARS`, handleResultData, ONE_HOUR);
+  }
+  resolve();
+});
 
 export const fetchAll = async (octokit: any) => {
   try {
     await fetchUserInfo(octokit);
     const all = [
       fetchRepos(octokit),
+      fetchStars(octokit),
     ];
     Promise.all(all).then(res => {
       st.status = HOME_STATUS.FINISH;

@@ -94,3 +94,24 @@ export const handleReposData = (repos: REPO[]) => {
   };
   return all;
 };
+
+/**
+ * 从你的点赞记录可以分析什么
+ * @param repos 所有仓库
+ */
+export const handleStarsData = (repos: REPO[]) => {
+  const languageResult: ANY_OBJECT = {};
+
+  const result = repos.map((repo: REPO, index: number) => {
+    const repoTemp = pick(repo, REPOS_PICK_KEYS);
+    const language = repoTemp.language || 'other';
+
+    languageResult[language] = languageResult[language] ? languageResult[language] + 1 : 1;
+
+    return repoTemp;
+  });
+  return {
+    stars: result,
+    language: languageResult,
+  };
+};

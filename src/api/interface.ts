@@ -1,4 +1,4 @@
-interface ANY_OBJECT {
+export interface ANY_OBJECT {
   [propName: string]: any;
 }
 

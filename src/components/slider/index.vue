@@ -7,6 +7,12 @@
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
         <repos-total></repos-total>
       </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0">
+        <stars></stars>
+      </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
+        <forks></forks>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
@@ -17,6 +23,8 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
 import ReposTotal from '@/components/Repos/index.vue';
+import Stars from '@/components/Stars/index.vue';
+import Forks from '@/components/Forks/index.vue';
 import { REPOS_INFO, USERINFO } from '@/api/interface';
 import store from '@/store';
 
@@ -26,6 +34,8 @@ import store from '@/store';
     swiperSlide,
     Info,
     ReposTotal,
+    Stars,
+    Forks,
   },
 })
 export default class MySlider extends Vue {
@@ -34,6 +44,9 @@ export default class MySlider extends Vue {
   }
   get reposInfo(): REPOS_INFO {
     return store.reposInfo || {};
+  }
+  get starsInfo(): REPOS_INFO {
+    return store.starsInfo || {};
   }
   swiperOption = {
     direction: 'vertical',
