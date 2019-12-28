@@ -3,7 +3,7 @@
     <div class="bg-inner"></div>
     <div class="bg-container">
       <slot name="body"></slot>
-      <div class="arrow">
+      <div class="arrow" v-if="hasArrow">
         <img class="arrow-img" :src="require('@/assets/img/arrow.png')"/>
       </div>
     </div>
@@ -11,13 +11,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
   components: {
   },
 })
 export default class Background extends Vue {
+  @Prop({
+    default: true,
+  }) hasArrow?: boolean;
 }
 </script>
 

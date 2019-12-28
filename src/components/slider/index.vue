@@ -25,6 +25,9 @@
       <swiper-slide class="swiper-item" v-if="Object.keys(userOrgs).length > 0">
         <orgs></orgs>
       </swiper-slide>
+      <swiper-slide class="swiper-item">
+        <end></end>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
@@ -41,6 +44,7 @@ import Commit2 from '@/components/Commit2/index.vue';
 import Star from '@/components/Star/index.vue';
 import Stared from '@/components/Stared/index.vue';
 import Orgs from '@/components/Orgs/index.vue';
+import End from '@/components/End/index.vue';
 import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
 import store from '@/store';
 
@@ -56,6 +60,7 @@ import store from '@/store';
     Orgs,
     Commit,
     Commit2,
+    End,
   },
 })
 export default class MySlider extends Vue {
