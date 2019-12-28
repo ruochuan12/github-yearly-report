@@ -1,7 +1,12 @@
 <template>
   <div class="background">
     <div class="bg-inner"></div>
-    <div class="bg-container"><slot name="body"></slot></div>
+    <div class="bg-container">
+      <slot name="body"></slot>
+      <div class="arrow">
+        <img class="arrow-img" :src="require('@/assets/img/arrow.png')"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -41,5 +46,23 @@ export default class Background extends Vue {
   left: 0;
   right: 0;
   bottom: 0;
+}
+.arrow {
+  position: absolute;
+  bottom: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &-img {
+    width: 32px;
+    height: 32px;
+    animation: heart 1.7s ease-in-out 0.1s infinite alternate;
+    @keyframes heart{
+      from{transform:translate(0,0)}
+      to{transform:translate(0, 6px)}
+    }
+  }
 }
 </style>

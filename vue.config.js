@@ -30,4 +30,7 @@ module.exports = {
         return options;
       });
   },
+  devServer: {
+    host: '0.0.0.0',
+  },
 };
