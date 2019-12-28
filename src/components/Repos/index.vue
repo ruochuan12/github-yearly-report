@@ -2,7 +2,6 @@
   <background>
     <div slot="body" class="repos-total">
       <my-title :title="`${YEAR_START_FORMAT || '今'} 年仓库数据`"></my-title>
-      <my-title title=""></my-title>
       <div class="container">
         <card>
           <div slot="body" class="repos-total-cell">

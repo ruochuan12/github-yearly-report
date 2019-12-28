@@ -28,6 +28,7 @@ interface STORE {
   starsInfo?: STARS_INFO
   userOrgs?: ORG[]
   commitsInfo?: any
+  octokit?: any
 }
 
 const app = new Vue<STORE>({
@@ -38,6 +39,7 @@ const app = new Vue<STORE>({
     starsInfo: {},
     userOrgs: [],
     commitsInfo: {},
+    octokit: null,
   },
 });
 
@@ -250,6 +252,7 @@ export const fetchCommits = (octokit: any) => new Promise(async (resolve, reject
 
 export const fetchAll = async (octokit: any) => {
   try {
+    st.octokit = octokit;
     await fetchUserInfo(octokit);
     const all = [
       fetchRepos(octokit),
