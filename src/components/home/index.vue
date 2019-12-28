@@ -10,7 +10,7 @@
       <div class="tip">静态托管 GitHub Pages，放心食用</div>
     </div>
     <div class="me" @click="toAxuebinPage">
-      <img class="avatar" src="@/assets/img/avatar.png"/>
+      <img class="avatar" src="https://raw.githubusercontent.com/axuebin/articles/master/images/avatar.png"/>
       <span class="name">Design/Code By axuebin</span>
     </div>
   </div>

@@ -22,7 +22,7 @@
             </div>
             <div class="detail">
               <div class="detail-cell">{{mostWeekRepo.repo}}</div>
-              <div class="detail-cell">{{mostWeekRepo.total}}</div>
+              <div class="detail-cell total">{{mostWeekRepo.total}}</div>
             </div>
           </div>
         </card>
@@ -171,6 +171,9 @@ export default class Commit2 extends Vue {
           flex: 1;
           text-align: center;
           font-size: 14px;
+        }
+        .total {
+          font-size: 20px;
         }
       }
     }
