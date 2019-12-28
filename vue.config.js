@@ -1,10 +1,9 @@
 const merge = require('webpack-merge');
 const tsImportPluginFactory = require('ts-import-plugin');
-const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const productionGzipExtensions = ['js', 'css'];
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  publicPath: isProduction ? 'github-yearly-report' : '',
   parallel: false,
   transpileDependencies: [
     'vue-echarts',
