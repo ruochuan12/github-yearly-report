@@ -18,6 +18,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { Toast, Dialog } from 'vant';
 import { YEAR_START_FORMAT, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
 import { qs } from '@/lib/utils';
 import { login, fetchToken, authenticate } from '@/lib/auth';
@@ -25,6 +26,7 @@ import { updateState, fetchAll } from '@/store';
 
 @Component({
   components: {
+    [Dialog.Component.name]: Dialog.Component,
   },
 })
 export default class Home extends Vue {
@@ -33,22 +35,43 @@ export default class Home extends Vue {
   toAxuebinPage() {
     window.location.href = 'https://github.com/axuebin';
   }
+  async init() {
+    const { code } = qs();
+    if (!code) {
+      login();
+      return;
+    }
+    Dialog.confirm({
+      title: '授权提示',
+      message: '需要通过 OAuth 获取 GitHub 相关 API 权限，无他用，请放心食用',
+    }).then(async () => {
+      const toast = Toast.loading({
+        duration: 0, // 持续展示 toast
+        forbidClick: true,
+        message: '正在授权...',
+      });
+      await fetchToken(code);
+      toast.message = '授权成功';
+      sessionStorage.setItem(GITHUB_CODE, code);
+      window.location.href = '/';
+    }).catch(() => {});
+  }
   async go() {
     const token = window.sessionStorage.getItem(GITHUB_TOKEN);
     if (!token) {
-      const { code } = qs();
-      if (!code) {
-        login();
-        return;
-      }
-      await fetchToken(code);
-      sessionStorage.setItem(GITHUB_CODE, code);
-      window.location.href = '/';
+      this.init();
       return;
     }
     updateState({ status: HOME_STATUS.BEGIN });
     const octokit = await authenticate();
+    Toast.clear();
     fetchAll(octokit);
+  }
+  mounted() {
+    const token = window.sessionStorage.getItem(GITHUB_TOKEN);
+    if (!token) {
+      this.init();
+    }
   }
 }
 </script>

@@ -43,8 +43,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ECharts from 'vue-echarts';
-import 'echarts/lib/chart/bar';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
@@ -58,7 +56,6 @@ import { compareYearData } from '@/lib/utils';
     Background,
     Card,
     MyTitle: Title,
-    'v-chart': ECharts,
   },
 })
 export default class ReposTotal extends Vue {

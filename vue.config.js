@@ -1,5 +1,8 @@
 const merge = require('webpack-merge');
 const tsImportPluginFactory = require('ts-import-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const productionGzipExtensions = ['js', 'css'];
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   parallel: false,
@@ -7,6 +10,27 @@ module.exports = {
     'vue-echarts',
     'resize-detector',
   ],
+  configureWebpack: config => {
+    if (isProduction) {
+      config.optimization = {
+        runtimeChunk: 'single',
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: Infinity,
+          minSize: 102400,
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name(module) {
+                const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                return `npm.${packageName.replace('@', '')}`;
+              },
+            },
+          },
+        },
+      };
+    }
+  },
   chainWebpack: config => {
     config.module
       .rule('ts')
@@ -33,4 +57,5 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
   },
+  productionSourceMap: false,
 };

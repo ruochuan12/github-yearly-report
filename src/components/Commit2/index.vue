@@ -33,8 +33,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import ECharts from 'vue-echarts';
-import 'echarts/lib/chart/line';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
@@ -46,7 +44,6 @@ import { COLORS, YEAR_START_FORMAT } from '../../lib/constant';
     Background,
     Card,
     MyTitle: Title,
-    'v-chart': ECharts,
   },
 })
 export default class Commit2 extends Vue {
