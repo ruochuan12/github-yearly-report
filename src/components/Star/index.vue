@@ -12,7 +12,7 @@
         </card>
         <card>
           <div slot="body" class="stars-cell">
-            <div class="key">你最喜欢 Star 编程语言 Top 3</div>
+            <div class="key">你最喜欢 Star 编程语言 Top 5</div>
             <div class="value stars-language">
               <v-chart :options="languageOptions"/>
             </div>

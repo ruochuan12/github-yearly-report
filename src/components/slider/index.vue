@@ -5,7 +5,10 @@
         <info></info>
       </swiper-slide>
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
-        <repos-total></repos-total>
+        <repos></repos>
+      </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
+        <repos2></repos2>
       </swiper-slide>
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
         <star></star>
@@ -25,7 +28,8 @@
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
-import ReposTotal from '@/components/Repos/index.vue';
+import Repos from '@/components/Repos/index.vue';
+import Repos2 from '@/components/Repos2/index.vue';
 import Star from '@/components/Star/index.vue';
 import Stared from '@/components/Stared/index.vue';
 import Orgs from '@/components/Orgs/index.vue';
@@ -37,7 +41,8 @@ import store from '@/store';
     swiper,
     swiperSlide,
     Info,
-    ReposTotal,
+    Repos,
+    Repos2,
     Star,
     Stared,
     Orgs,

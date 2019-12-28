@@ -6,39 +6,14 @@
         <card>
           <div slot="body" class="repos-total-cell">
             <div class="key">你有几个仓库</div>
-            <div class="value">{{reposInfo.repos ? reposInfo.repos.length : 0}}</div>
+            <div class="value">{{repos.length || 0}}</div>
           </div>
         </card>
         <card>
           <div slot="body" class="repos-total-cell">
-            <div class="key">今年你创建了几个仓库</div>
-            <div class="tip">
-              {{createdCompare}}
-            </div>
-            <div class="value repos-total-created">
-              <v-chart :options="createdOptions"/>
-            </div>
-          </div>
-        </card>
-        <card>
-          <div slot="body" class="repos-total-cell">
-            <div class="key">你最近忙于这个仓库</div>
-            <div class="tip">
-              坚持就是胜利
-            </div>
-            <div class="value name">
-              {{latestUpdatedRepo.full_name || ''}}
-            </div>
-          </div>
-        </card>
-        <card>
-          <div slot="body" class="repos-total-cell">
-            <div class="key">当前 issue Open 最多的仓库</div>
-            <div class="tip">
-              最好不要弃坑哦~
-            </div>
-            <div class="value name">
-              {{maxIssueRepo.full_name || ''}}
+            <div class="key">你的编程语言 Top 5</div>
+            <div class="value repos-total-language">
+              <v-chart :options="languageOptions"/>
             </div>
           </div>
         </card>
@@ -50,14 +25,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import ECharts from 'vue-echarts';
-import 'echarts/lib/chart/bar';
+import 'echarts/lib/chart/pie';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
 import store from '@/store';
 import { YEAR_LAST_FORMAT, YEAR_START_FORMAT, COLORS } from '@/lib/constant';
 import { REPOS_INFO, REPO } from '@/api/interface';
-import { compareYearData } from '@/lib/utils';
+import { toPercent } from '../../lib/utils';
 
 @Component({
   components: {
@@ -68,80 +43,63 @@ import { compareYearData } from '@/lib/utils';
   },
 })
 export default class ReposTotal extends Vue {
-  createdOptions = {
-    xAxis: {
-      show: false,
-    },
-    yAxis: {
-      axisLine: {
-        show: false,
+  languageOptions = {
+    legend: {
+      show: true,
+      data: {},
+      orient: 'vertical',
+      left: 'left',
+      top: 'center',
+      textStyle: {
+        fontSize: 11,
       },
-      axisTick: {
-        show: false,
-      },
-      type: 'category',
-      data: [`${YEAR_LAST_FORMAT}年`, `${YEAR_START_FORMAT}年`],
     },
     grid: {
-      top: 10,
-      left: '3%',
-      right: '4%',
+      top: 0,
+      left: 0,
+      right: 0,
       bottom: 0,
-      containLabel: true,
     },
     series: [
       {
-        type: 'bar',
+        type: 'pie',
+        radius: '80%',
+        center: ['75%', '50%'],
+        color: COLORS,
         label: {
-          show: true,
-          position: 'insideLeft',
-          offset: [10, 0],
-          fontSize: 14,
+          show: false,
         },
         data: [],
       },
     ],
     animation: false,
   }
-  get createdCompare(): string {
-    const { createds, lastYearCreateds } = this.reposInfo;
-    return compareYearData(createds, lastYearCreateds);
+  get repos(): REPO[] {
+    if (store.reposInfo && store.reposInfo.repos) {
+      return store.reposInfo.repos;
+    }
+    return [];
   }
   get reposInfo(): REPOS_INFO {
     return store.reposInfo || {};
   }
-  get maxIssueRepo(): REPO {
-    if (store.reposInfo && store.reposInfo.maxIssues) {
-      return store.reposInfo.maxIssues;
-    }
-    return {};
-  }
-  get latestUpdatedRepo(): REPO {
-    if (store.reposInfo && store.reposInfo.latest) {
-      return store.reposInfo.latest;
-    }
-    return {};
-  }
   mounted() {
-    const createdOptions = { ...this.createdOptions };
-    const { createds, lastYearCreateds } = this.reposInfo;
-    (createdOptions.series[0].data as any) = [
-      {
-        name: `${YEAR_LAST_FORMAT}年`,
-        value: lastYearCreateds,
-        itemStyle: {
-          color: COLORS[1],
-        },
-      },
-      {
-        name: `${YEAR_START_FORMAT}年`,
-        value: createds,
-        itemStyle: {
-          color: COLORS[0],
-        },
-      },
-    ];
-    this.createdOptions = createdOptions;
+    const languageOptions = { ...this.languageOptions };
+    const language = this.reposInfo.language || {};
+    const data: any[] = [];
+    console.log(language);
+    Object.keys(language).forEach((item: string) => {
+      if (item !== 'other') {
+        data.push({
+          name: `${item}(${toPercent(language[item] / this.repos.length)})`,
+          value: language[item],
+        });
+      }
+    });
+    const showData = data.sort((a: any, b: any) => b.value - a.value).slice(0, 5);
+    (languageOptions.series[0].data as any) = showData;
+    languageOptions.legend.data = showData.map(item => `${item.name}`);
+    this.languageOptions = languageOptions;
   }
 }
 </script>
@@ -176,18 +134,10 @@ export default class ReposTotal extends Vue {
         font-weight: bold;
         color: $MAIN_TEXT_COLOR;
       }
-      .name {
-        font-size: 22px;
-      }
-      .tip {
-        margin-top: 6px;
-        font-size: 12px;
-        color: $TIP_COLOR;
-      }
     }
-    &-created {
+    &-language {
       width: 100%;
-      height: 100px;
+      height: 160px;
     }
   }
 }
