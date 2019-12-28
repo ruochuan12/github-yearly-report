@@ -1,11 +1,11 @@
 <template>
   <background>
     <div slot="body" class="commits">
-      <my-title title="Commit 数据"></my-title>
+      <my-title :title="`${YEAR_START_FORMAT || '今'} 年 Commit 数据`"></my-title>
       <div class="container">
         <card>
           <div slot="body" class="commits-cell">
-            <div class="key">勤奋的你今年 Commit 了几次</div>
+            <div class="key">勤奋的你今年  Commit 了</div>
             <div class="tip">继续加油哟 💪</div>
             <div class="value">{{commitsInfo.total || 0}}</div>
           </div>
@@ -46,7 +46,7 @@ import Title from '@/components/common/title.vue';
 import TopList from '@/components/common/topList.vue';
 import store from '@/store';
 import { REPO, REPOS_INFO, STARS_INFO } from '@/api/interface';
-import { COLORS } from '../../lib/constant';
+import { COLORS, YEAR_START_FORMAT } from '../../lib/constant';
 import { toPercent } from '../../lib/utils';
 
 @Component({
@@ -58,6 +58,7 @@ import { toPercent } from '../../lib/utils';
   },
 })
 export default class Commit extends Vue {
+  YEAR_START_FORMAT = YEAR_START_FORMAT;
   get ranks(): any {
     if (store.commitsInfo && store.commitsInfo.ranks) {
       return store.commitsInfo.ranks;

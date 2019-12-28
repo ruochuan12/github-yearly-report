@@ -1,7 +1,7 @@
 <template>
   <background>
     <div slot="body" class="commit2">
-      <my-title title="Commit 数据"></my-title>
+      <my-title :title="`${YEAR_START_FORMAT || '今'} 年 Commit 数据`"></my-title>
       <div class="container">
         <card>
           <div slot="body" class="commit2-cell">

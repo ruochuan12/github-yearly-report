@@ -1,7 +1,8 @@
 <template>
   <background>
     <div slot="body" class="repos-total">
-      <my-title title="仓库数据"></my-title>
+      <my-title :title="`${YEAR_START_FORMAT || '今'} 年仓库数据`"></my-title>
+      <my-title title=""></my-title>
       <div class="container">
         <card>
           <div slot="body" class="repos-total-cell">
@@ -74,6 +75,7 @@ export default class ReposTotal extends Vue {
     ],
     animation: false,
   }
+  YEAR_START_FORMAT = YEAR_START_FORMAT;
   get repos(): REPO[] {
     if (store.reposInfo && store.reposInfo.repos) {
       return store.reposInfo.repos;

@@ -109,19 +109,6 @@ export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) 
   resolve();
 });
 
-export const fetchIssues = async (octokit: any) => {
-  const { issues } = octokit;
-  const response = await issues.list({
-    filter: 'all',
-    state: 'all',
-    sort: 'created',
-    since: YEAR_START.toISOString(),
-    per_page: 100,
-    page: 1,
-  });
-  return response;
-};
-
 export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) => {
   const storageData = getStorage(STARS_KEY);
   if (storageData) {

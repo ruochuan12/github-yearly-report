@@ -4,7 +4,8 @@
       <img class="logo" src="@/assets/img/logo.png"/>
       <div class="year">{{year}}</div>
       <div class="title">年度数据报告</div>
-      <div class="sub-title">From Github</div>
+      <div class="sub-title">非官方</div>
+      <div class="sub-title">Data From GitHub</div>
       <div class="lucky-btn" @click="go">开启时光机</div>
       <div class="tip">静态托管 GitHub Pages，放心食用</div>
     </div>
