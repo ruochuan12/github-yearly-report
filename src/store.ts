@@ -1,12 +1,23 @@
 import Vue from 'vue';
 
 import {
-  YEAR_START, HOME_STATUS, GITHUB_YEARLY_REPORT_PRE, ONE_HOUR, ONE_DAY,
+  YEAR_START,
+  HOME_STATUS,
+  GITHUB_YEARLY_REPORT_PRE,
+  ONE_HOUR,
+  ONE_DAY,
+  USERINFO_PICK_KEYS,
+  ORGS_PICK_KEYS,
 } from '@/lib/constant';
-import { USERINFO, REPO, REPOS_INFO, STARS_INFO } from '@/api/interface';
-import { timeoutFn } from './lib/utils';
+import { USERINFO, REPO, REPOS_INFO, STARS_INFO, ORG } from '@/api/interface';
+import { timeoutFn, pick } from './lib/utils';
 import { handleReposData, handleStarsData } from '@/lib/handleData';
 import { getStorage, setStorage } from './lib/storage';
+
+const USERINFO_KEY = `${GITHUB_YEARLY_REPORT_PRE}_USERINFO`;
+const REPOS_KEY = `${GITHUB_YEARLY_REPORT_PRE}_REPOS`;
+const STARS_KEY = `${GITHUB_YEARLY_REPORT_PRE}_STARS`;
+const ORGS_KEY = `${GITHUB_YEARLY_REPORT_PRE}_ORGS`;
 
 interface STORE {
   userInfo?: USERINFO
@@ -14,6 +25,7 @@ interface STORE {
   issues?: any[]
   status?: number
   starsInfo?: STARS_INFO
+  userOrgs?: ORG[]
 }
 
 const app = new Vue<STORE>({
@@ -22,6 +34,7 @@ const app = new Vue<STORE>({
     status: 0,
     reposInfo: {},
     starsInfo: {},
+    userOrgs: [],
   },
 });
 
@@ -46,21 +59,22 @@ export const updateState = (payload: ANY_OBJECT) => {
 };
 
 export const fetchUserInfo = async (octokit: any) => {
-  const userInfoStorage = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_USERINFO`);
+  const userInfoStorage = getStorage(USERINFO_KEY);
   if (userInfoStorage) {
     st.userInfo = userInfoStorage;
   } else {
     const { users } = octokit;
     const res = await timeoutFn(users.getAuthenticated());
     if (+res.status === 200) {
-      st.userInfo = res.data;
-      setStorage(`${GITHUB_YEARLY_REPORT_PRE}_USERINFO`, res.data, ONE_DAY);
+      const data = pick(res.data, USERINFO_PICK_KEYS);
+      st.userInfo = data;
+      setStorage(USERINFO_KEY, data, ONE_DAY);
     }
   }
 };
 
 export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) => {
-  const reposStorage = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_REPOS`);
+  const reposStorage = getStorage(REPOS_KEY);
   if (reposStorage) {
     st.reposInfo = reposStorage;
   } else {
@@ -81,7 +95,7 @@ export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) 
       }
       pageNo += 1;
       originalReposData = originalReposData.concat(data);
-      if (data && data.length === 0) {
+      if (data && (data.length === 0 || data.length < 100)) {
         hasNext = false;
       }
     };
@@ -90,7 +104,7 @@ export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) 
     }
     const reposHandleResult = handleReposData(originalReposData);
     st.reposInfo = reposHandleResult;
-    setStorage(`${GITHUB_YEARLY_REPORT_PRE}_REPOS`, reposHandleResult, ONE_HOUR);
+    setStorage(REPOS_KEY, reposHandleResult, ONE_HOUR);
   }
   resolve();
 });
@@ -109,7 +123,7 @@ export const fetchIssues = async (octokit: any) => {
 };
 
 export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) => {
-  const storageData = getStorage(`${GITHUB_YEARLY_REPORT_PRE}_STARS`);
+  const storageData = getStorage(STARS_KEY);
   if (storageData) {
     st.starsInfo = storageData;
   } else {
@@ -129,7 +143,7 @@ export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) 
       }
       pageNo += 1;
       originalData = originalData.concat(data);
-      if (data && data.length === 0) {
+      if (data && (data.length === 0 || data.length < 100)) {
         hasNext = false;
       }
     };
@@ -138,7 +152,62 @@ export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) 
     }
     const handleResultData = handleStarsData(originalData);
     st.starsInfo = handleResultData;
-    setStorage(`${GITHUB_YEARLY_REPORT_PRE}_STARS`, handleResultData, ONE_HOUR);
+    setStorage(STARS_KEY, handleResultData, ONE_HOUR);
+  }
+  resolve();
+});
+
+export const fetchOrgs = (octokit: any) => new Promise(async (resolve, reject) => {
+  const storageData = getStorage(ORGS_KEY);
+  if (storageData) {
+    st.userOrgs = storageData;
+  } else {
+    const { orgs } = octokit;
+    let userInfo = getStorage(USERINFO_KEY);
+    if (!userInfo) {
+      await fetchUserInfo(octokit);
+      userInfo = getStorage(USERINFO_KEY);
+    }
+
+    const { name } = userInfo;
+
+    let originalData: any[] = [];
+    let pageNo: number = 1;
+    let hasNext: boolean = true;
+    const fn = async (page: number) => {
+      const res = await orgs.listForUser({
+        username: name,
+        per_page: 100,
+        page,
+      });
+
+      const { status, data } = res;
+      if (+status !== 200) {
+        reject();
+      }
+      pageNo += 1;
+      originalData = originalData.concat(data);
+      if (data && (data.length === 0 || data.length < 100)) {
+        hasNext = false;
+      }
+    };
+    while (pageNo === 1 || hasNext) {
+      await fn(pageNo); // eslint-disable-line
+    }
+    const pickResult = originalData.map((item: ORG) => pick(item, ORGS_PICK_KEYS));
+    const orgsDetail: ORG[] = [];
+    for (const item of pickResult) {
+      const res = await orgs.get({  // eslint-disable-line
+        org: item.login,
+      });
+      const { status, data } = res;
+      if (+status !== 200) {
+        reject();
+      }
+      orgsDetail.push(pick(data, ORGS_PICK_KEYS));
+    }
+    st.userOrgs = orgsDetail;
+    setStorage(ORGS_KEY, orgsDetail, ONE_HOUR);
   }
   resolve();
 });
@@ -149,6 +218,7 @@ export const fetchAll = async (octokit: any) => {
     const all = [
       fetchRepos(octokit),
       fetchStars(octokit),
+      fetchOrgs(octokit),
     ];
     Promise.all(all).then(res => {
       st.status = HOME_STATUS.FINISH;

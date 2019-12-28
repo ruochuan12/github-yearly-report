@@ -40,6 +40,21 @@ export const HOME_STATUS = {
 
 export const TIMEOUT = 3000;
 
+export const USERINFO_PICK_KEYS: string[] = [
+  'login',
+  'id',
+  'name',
+  'avatar_url',
+  'location',
+  'bio',
+  'public_repos',
+  'public_gists',
+  'followers',
+  'following',
+  'created_at',
+  'updated_at',
+];
+
 export const REPOS_PICK_KEYS: string[] = [
   'full_name', // 项目名
   'description', // 项目描述
@@ -50,4 +65,11 @@ export const REPOS_PICK_KEYS: string[] = [
   'language', // 主要语言
   'forks_count', // fork 数
   'open_issues', // 打开的 issue 数
+];
+
+export const ORGS_PICK_KEYS: string[] = [
+  'login', // 组织名
+  'name', // 组织名
+  'description', // 组织介绍
+  'avatar_url', // 头像
 ];

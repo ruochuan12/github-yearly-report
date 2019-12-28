@@ -13,6 +13,9 @@
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0">
         <stared></stared>
       </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(userOrgs).length > 0">
+        <orgs></orgs>
+      </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
     </swiper>
   </div>
@@ -25,7 +28,8 @@ import Info from '@/components/Info/index.vue';
 import ReposTotal from '@/components/Repos/index.vue';
 import Star from '@/components/Star/index.vue';
 import Stared from '@/components/Stared/index.vue';
-import { REPOS_INFO, USERINFO, STARS_INFO } from '@/api/interface';
+import Orgs from '@/components/Orgs/index.vue';
+import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
 import store from '@/store';
 
 @Component({
@@ -36,6 +40,7 @@ import store from '@/store';
     ReposTotal,
     Star,
     Stared,
+    Orgs,
   },
 })
 export default class MySlider extends Vue {
@@ -47,6 +52,9 @@ export default class MySlider extends Vue {
   }
   get starsInfo(): STARS_INFO {
     return store.starsInfo || {};
+  }
+  get userOrgs(): ORG[] {
+    return store.userOrgs || [];
   }
   swiperOption = {
     direction: 'vertical',

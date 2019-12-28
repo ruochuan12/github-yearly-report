@@ -55,3 +55,10 @@ export interface STARS_INFO {
   language?: ANY_OBJECT
   mostStars?: REPO[]
 }
+
+export interface ORG {
+  login?: string
+  name?: string
+  description?: string
+  avatar_url?: string
+}
