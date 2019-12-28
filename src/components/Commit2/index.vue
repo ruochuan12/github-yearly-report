@@ -122,7 +122,7 @@ export default class Commit2 extends Vue {
 .container {
   height: 0;
   flex: 1;
-  margin: 16px 0 36px;
+  margin: 16px 0 0;
   padding-bottom: 10px;
   overflow-y: scroll;
   .commit2 {

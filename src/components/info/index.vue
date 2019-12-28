@@ -74,7 +74,6 @@ export default class Info extends Vue {
 .container {
   height: 0;
   flex: 1;
-  margin-bottom: 36px;
   padding-bottom: 10px;
   overflow-y: scroll;
 }

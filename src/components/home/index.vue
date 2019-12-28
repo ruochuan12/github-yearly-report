@@ -53,7 +53,7 @@ export default class Home extends Vue {
       await fetchToken(code);
       toast.message = '授权成功';
       sessionStorage.setItem(GITHUB_CODE, code);
-      window.location.href = process.env.NODE_ENV === 'production' ? 'https://github.com/axuebin/github-yearly-report' : '/';
+      window.location.href = process.env.NODE_ENV === 'production' ? 'http://axuebin.com/github-yearly-report/' : '/';
     }).catch(() => {});
   }
   async go() {
