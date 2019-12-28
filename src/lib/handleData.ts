@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { REPO } from '@/api/interface';
+import { REPO, COMMIT_ACTIVITY_ITEM, REPO_COMMINT_INFO } from '@/api/interface';
 import { pick, inStartEndYear, inLastStartYear } from './utils';
 import { REPOS_PICK_KEYS } from './constant';
 
@@ -106,5 +106,63 @@ export const handleStarsData = (repos: REPO[]) => {
     stars: result, // 所有点赞
     language: languageResult, // 语言分布
     mostStars: result.sort((a: any, b: any) => b.stargazers_count - a.stargazers_count).slice(0, 5), // 点赞最多的 top 5
+  };
+};
+
+export const handleCommitsData = (repos: REPO_COMMINT_INFO[]) => {
+  let commitTotal = 0;
+  const time: any = {};
+  let mostWeekTotal = 0;
+  let mostWeekInfo = {};
+  let mostDayTotal = 0;
+  let mostDayInfo = {};
+
+  repos.forEach((repo: REPO_COMMINT_INFO) => {
+    const { commits, total }: any = repo;
+    commitTotal += total;
+    commits.forEach((commit: COMMIT_ACTIVITY_ITEM) => {
+      const { week, days } = commit;
+      if (time[week]) {
+        time[week] += commit.total;
+      } else {
+        time[week] = commit.total;
+      }
+      if (commit.total >= mostWeekTotal) {
+        mostWeekTotal = commit.total;
+        const weekDayJsObject = dayjs.unix(week);
+        mostWeekInfo = {
+          repo: repo.repo,
+          week: `${weekDayJsObject.format('YYYY-MM-DD')} ~ ${weekDayJsObject.add(7, 'day').format('YYYY-MM-DD')}`,
+          total: commit.total,
+        };
+      }
+      days.forEach((day: number, index: number) => {
+        if (day >= mostDayTotal) {
+          mostDayTotal = day;
+          mostDayInfo = {
+            repo: repo.repo,
+            day: dayjs.unix(week).add(index, 'day').format('YYYY-MM-DD'),
+            total: day,
+          };
+        }
+      });
+    });
+  });
+  const commitsRanks = repos.sort((a: REPO_COMMINT_INFO, b: REPO_COMMINT_INFO) => b.total - a.total);
+
+  const weekRanks = Object.entries(time).sort((a: any, b: any) => b[1] - a[1]).slice(0, 5).map(((item: any) => {
+    const dayJsObject = dayjs.unix(item[0]);
+    return {
+      week: `${dayJsObject.format('YYYY-MM-DD')} ~ ${dayJsObject.add(7, 'day').format('YYYY-MM-DD')}`,
+      total: item[1],
+    };
+  }));
+
+  return {
+    total: commitTotal, // commits 总数
+    ranks: commitsRanks.slice(0, 5), // commits top 5
+    weekRanks, // 最勤奋的5周
+    mostWeekRepo: mostWeekInfo, // 最勤奋的一周是贡献给哪个仓库
+    mostDayRepo: mostDayInfo, // 最勤奋的一天是贡献给哪个仓库
   };
 };

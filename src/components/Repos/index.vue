@@ -87,7 +87,6 @@ export default class ReposTotal extends Vue {
     const languageOptions = { ...this.languageOptions };
     const language = this.reposInfo.language || {};
     const data: any[] = [];
-    console.log(language);
     Object.keys(language).forEach((item: string) => {
       if (item !== 'other') {
         data.push({

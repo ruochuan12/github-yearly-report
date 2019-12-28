@@ -62,3 +62,15 @@ export interface ORG {
   description?: string
   avatar_url?: string
 }
+
+export interface COMMIT_ACTIVITY_ITEM {
+  total: number
+  week: number
+  days: number[]
+}
+
+export interface REPO_COMMINT_INFO {
+  repo?: string
+  commits?: COMMIT_ACTIVITY_ITEM[]
+  total: number
+}

@@ -56,6 +56,7 @@ export const USERINFO_PICK_KEYS: string[] = [
 ];
 
 export const REPOS_PICK_KEYS: string[] = [
+  'name', // 项目
   'full_name', // 项目名
   'description', // 项目描述
   'fork', // 是否是 fork 别人的
