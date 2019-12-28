@@ -22,7 +22,7 @@
           <div slot="body" class="end-cell">
             <div class="content">我也有一个公众号，分享代码和摄影，目前长期不营业，计划明年捡起来，有兴趣的可以先关注一下。</div>
             <div class="content">
-              <div class="weixin"><img class="weixin-img" src="https://raw.githubusercontent.com/axuebin/articles/master/images/weixin.png"/></div>
+              <div class="weixin"><img class="weixin-img" src="https://i.loli.net/2019/12/28/bKGhe2o8XMVmyOW.png"/></div>
             </div>
           </div>
         </card>

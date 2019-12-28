@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      <img class="logo" src="https://raw.githubusercontent.com/axuebin/articles/master/images/yearly-logo.png"/>
+      <img class="logo" src="https://i.loli.net/2019/12/28/xdDyvcu19FMApVf.png"/>
       <div class="year">{{year}}</div>
       <div class="title">年度数据报告</div>
       <div class="sub-title">非官方</div>
@@ -10,7 +10,7 @@
       <div class="tip">静态托管 GitHub Pages，放心食用</div>
     </div>
     <div class="me" @click="toAxuebinPage">
-      <img class="avatar" src="https://raw.githubusercontent.com/axuebin/articles/master/images/avatar.png"/>
+      <img class="avatar" src="https://i.loli.net/2019/12/28/VU7qlFgfvCGt65N.jpg"/>
       <span class="name">Design/Code By axuebin</span>
     </div>
   </div>

@@ -70,3 +70,16 @@ export const compareYearData = (year: any, lastYear: any) => {
   }
   return result;
 };
+
+export const fetchImage = (url: string) => new Promise((resolve, reject) => {
+  const img = new Image();
+  img.src = url;
+  // eslint-disable-next-line func-names
+  img.onload = function () {
+    resolve();
+  };
+  // eslint-disable-next-line func-names
+  img.onerror = function () {
+    reject();
+  };
+});
