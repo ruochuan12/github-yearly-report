@@ -53,7 +53,7 @@ export default class Orgs extends Vue {
 .container {
   height: 0;
   flex: 1;
-  margin: 16px 0 50px;
+  margin: 16px 0 36px;
   padding-bottom: 10px;
   overflow-y: scroll;
   .org {

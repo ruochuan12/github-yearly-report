@@ -148,8 +148,18 @@ export default class ReposTotal extends Vue {
 
 <style lang="scss" scoped>
 @import '@/assets/style/base.scss';
+.repos-total {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
-  margin-top: 30px;
+  height: 0;
+  flex: 1;
+  margin: 16px 0 36px;
+  padding-bottom: 10px;
+  overflow-y: scroll;
   .repos-total {
     &-cell {
       padding: 8px 16px;

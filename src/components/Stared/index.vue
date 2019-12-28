@@ -1,17 +1,17 @@
 <template>
   <background>
-    <div slot="body" class="stars">
+    <div slot="body" class="stared">
       <my-title title="Star 数据(总)"></my-title>
       <div class="container">
         <card>
-          <div slot="body" class="stars-cell">
+          <div slot="body" class="stared-cell">
             <div class="key">收获了几个小星星</div>
             <div class="tip">记得 Code > Star 哦</div>
             <div class="value">{{reposInfo.stars || 0}}</div>
           </div>
         </card>
         <card>
-          <div slot="body" class="stars-cell">
+          <div slot="body" class="stared-cell">
             <div class="key">最受欢迎 Top 5</div>
             <div class="value list">
               <top-list :data="reposInfo.mostStars || []"></top-list>
@@ -61,9 +61,19 @@ export default class Stars extends Vue {
 
 <style lang="scss" scoped>
 @import '@/assets/style/base.scss';
+.stared {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
-  margin-top: 30px;
-  .stars {
+  height: 0;
+  flex: 1;
+  margin: 16px 0 36px;
+  padding-bottom: 10px;
+  overflow-y: scroll;
+  .stared {
     &-cell {
       padding: 8px 16px;
       display: flex;

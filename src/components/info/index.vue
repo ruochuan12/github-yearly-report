@@ -4,36 +4,38 @@
       <my-title title="基本信息"></my-title>
       <img class="info-avatar" src="@/assets/img/avatar.png"/>
       <div class="bio">{{userInfo.bio}}</div>
-      <card>
-        <div slot="body" class="card-left-right-cell">
-          <div class="key">Name</div>
-          <div class="value">{{userInfo.name}}</div>
-        </div>
-      </card>
-      <card>
-        <div slot="body" class="card-left-right-cell">
-          <div class="key">Repos</div>
-          <div class="value">{{userInfo.public_repos}}<span class="small">个</span></div>
-        </div>
-      </card>
-      <card>
-        <div slot="body" class="card-left-right-cell">
-          <div class="key">Gists</div>
-          <div class="value">{{userInfo.public_gists}}<span class="small">个</span></div>
-        </div>
-      </card>
-      <card>
-        <div slot="body" class="card-left-right-cell">
-          <div class="key">Followers</div>
-          <div class="value">{{userInfo.followers}}<span class="small">人</span></div>
-        </div>
-      </card>
-      <card>
-        <div slot="body" class="card-left-right-cell">
-          <div class="key">Following</div>
-          <div class="value">{{userInfo.following}}<span class="small">人</span></div>
-        </div>
-      </card>
+      <div class="container">
+        <card>
+          <div slot="body" class="card-left-right-cell">
+            <div class="key">Name</div>
+            <div class="value">{{userInfo.name}}</div>
+          </div>
+        </card>
+        <card>
+          <div slot="body" class="card-left-right-cell">
+            <div class="key">Repos</div>
+            <div class="value">{{userInfo.public_repos}}<span class="small">个</span></div>
+          </div>
+        </card>
+        <card>
+          <div slot="body" class="card-left-right-cell">
+            <div class="key">Gists</div>
+            <div class="value">{{userInfo.public_gists}}<span class="small">个</span></div>
+          </div>
+        </card>
+        <card>
+          <div slot="body" class="card-left-right-cell">
+            <div class="key">Followers</div>
+            <div class="value">{{userInfo.followers}}<span class="small">人</span></div>
+          </div>
+        </card>
+        <card>
+          <div slot="body" class="card-left-right-cell">
+            <div class="key">Following</div>
+            <div class="value">{{userInfo.following}}<span class="small">人</span></div>
+          </div>
+        </card>
+      </div>
     </div>
   </background>
 </template>
@@ -64,7 +66,21 @@ export default class Info extends Vue {
 <style lang="scss" scoped>
 @import '@/assets/style/base.scss';
 
+.orgs {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  height: 0;
+  flex: 1;
+  margin-bottom: 36px;
+  padding-bottom: 10px;
+  overflow-y: scroll;
+}
+
 .info {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
