@@ -4,7 +4,6 @@ import {
   YEAR_START,
   HOME_STATUS,
   GITHUB_YEARLY_REPORT_PRE,
-  ONE_HOUR,
   ONE_DAY,
   USERINFO_PICK_KEYS,
   ORGS_PICK_KEYS,
@@ -106,7 +105,7 @@ export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) 
     }
     const reposHandleResult = handleReposData(originalReposData);
     st.reposInfo = reposHandleResult;
-    setStorage(REPOS_KEY, reposHandleResult, ONE_HOUR);
+    setStorage(REPOS_KEY, reposHandleResult, ONE_DAY);
   }
   resolve();
 });
@@ -138,7 +137,7 @@ export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) 
     }
     const handleResultData = handleStarsData(originalData);
     st.starsInfo = handleResultData;
-    setStorage(STARS_KEY, handleResultData, ONE_HOUR);
+    setStorage(STARS_KEY, handleResultData, ONE_DAY);
   }
   resolve();
 });
@@ -187,7 +186,7 @@ export const fetchOrgs = (octokit: any) => new Promise(async (resolve, reject) =
       orgsDetail.push(pick(data, ORGS_PICK_KEYS));
     }
     st.userOrgs = orgsDetail;
-    setStorage(ORGS_KEY, orgsDetail, ONE_HOUR);
+    setStorage(ORGS_KEY, orgsDetail, ONE_DAY);
   }
   resolve();
 });
@@ -245,7 +244,7 @@ export const fetchCommits = (octokit: any) => new Promise(async (resolve, reject
     }
     const result = handleCommitsData(commits);
     st.commitsInfo = result;
-    setStorage(COMMITS_KEY, result, ONE_HOUR);
+    setStorage(COMMITS_KEY, result, ONE_DAY);
   }
   resolve();
 });
