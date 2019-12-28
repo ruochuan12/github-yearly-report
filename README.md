@@ -1,2 +1,1 @@
-# my-github-yearly-report
-github 年终总结
+# github-yearly-report
