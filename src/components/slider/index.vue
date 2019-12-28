@@ -29,6 +29,8 @@
         <end></end>
       </swiper-slide>
       <div class="swiper-pagination" slot="pagination"></div>
+      <div class="swiper-button-prev" slot="button-prev"></div>
+      <div class="swiper-button-next" slot="button-next"></div>
     </swiper>
   </div>
 </template>
@@ -47,6 +49,8 @@ import Orgs from '@/components/Orgs/index.vue';
 import End from '@/components/End/index.vue';
 import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
 import store from '@/store';
+
+import 'swiper/dist/css/swiper.css';
 
 @Component({
   components: {
@@ -80,13 +84,14 @@ export default class MySlider extends Vue {
     return store.commitsInfo || [];
   }
   swiperOption = {
-    direction: 'vertical',
-    slidesPerView: 1,
-    spaceBetween: 30,
     mousewheel: true,
     pagination: {
       el: '.swiper-pagination',
       type: 'progressbar',
+    },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
     },
   }
 }

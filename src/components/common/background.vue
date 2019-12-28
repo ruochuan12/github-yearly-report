@@ -3,9 +3,9 @@
     <div class="bg-inner"></div>
     <div class="bg-container">
       <slot name="body"></slot>
-      <div class="arrow" v-if="hasArrow">
-        <img class="arrow-img" :src="require('@/assets/img/arrow.png')"/>
-      </div>
+      <!-- <div class="arrow" v-if="hasArrow">
+        <img class="arrow-img" src="https://raw.githubusercontent.com/axuebin/articles/master/images/yearly-arrow.png"/>
+      </div> -->
     </div>
   </div>
 </template>
@@ -36,11 +36,11 @@ export default class Background extends Vue {
 .bg-inner {
   z-index: 0;
   height: 160px;
-  border-radius: 0 0 100% 100%;
+  border-radius: 0 0 30px 30px;
   background-color: $BASE_COLOR;
   position: absolute;
-  right: -10%;
-  left: -10%;
+  right: 0;
+  left: 0;
 }
 .bg-container {
   height: 100%;

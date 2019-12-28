@@ -24,8 +24,8 @@ export const YEAR_END = new Date('2020-01-01');
 export const ONE_HOUR = 1000 * 60 * 60;
 export const ONE_DAY = 1000 * 60 * 60 * 24;
 
-export const CLIENT_ID = 'd91686b028f8cc13205f';
-export const CLIENT_SECRET = '3bcf7179c504ac7d74b726f36842815999c4722a';
+export const CLIENT_ID = process.env.NODE_ENV === 'production' ? 'd91686b028f8cc13205f' : '79b41cf98342f3c52993';
+export const CLIENT_SECRET = process.env.NODE_ENV === 'production' ? '3bcf7179c504ac7d74b726f36842815999c4722a' : '363921c94203ca8cd8f2fcc1014901a8aea90a49';
 
 export const GITHUB_YEARLY_REPORT_PRE = 'GITHUB_YEARLY_REPORT';
 export const GITHUB_TOKEN = `${GITHUB_YEARLY_REPORT_PRE}_GITHUB_TOKEN`;

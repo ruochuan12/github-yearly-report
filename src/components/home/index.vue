@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container">
-      <img class="logo" src="@/assets/img/logo.png"/>
+      <img class="logo" src="https://raw.githubusercontent.com/axuebin/articles/master/images/yearly-logo.png"/>
       <div class="year">{{year}}</div>
       <div class="title">年度数据报告</div>
       <div class="sub-title">非官方</div>
@@ -53,7 +53,7 @@ export default class Home extends Vue {
       await fetchToken(code);
       toast.message = '授权成功';
       sessionStorage.setItem(GITHUB_CODE, code);
-      window.location.href = '/';
+      window.location.href = process.env.NODE_ENV === 'production' ? 'https://github.com/axuebin/github-yearly-report' : '/';
     }).catch(() => {});
   }
   async go() {

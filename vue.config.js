@@ -3,7 +3,7 @@ const tsImportPluginFactory = require('ts-import-plugin');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  publicPath: isProduction ? 'github-yearly-report' : '',
+  publicPath: isProduction ? '/github-yearly-report/' : '/',
   parallel: false,
   transpileDependencies: [
     'vue-echarts',
