@@ -1,8 +1,8 @@
 <template>
   <div class="top-list">
     <div class="top-list-item" v-for="(item, index) in data" :key="index">
-      <div class="top-list-item-left">{{index + 1}}. {{item.full_name}}</div>
-      <div class="top-list-item-right">{{item.stargazers_count}}</div>
+      <div class="top-list-item-left">{{index + 1}}. {{item[keyName]}}</div>
+      <div class="top-list-item-right">{{item[valueName]}}</div>
     </div>
   </div>
 </template>
@@ -16,6 +16,12 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 })
 export default class TopList extends Vue {
   @Prop() data?: any[]
+  @Prop({
+    default: 'full_name',
+  }) keyName?: string
+  @Prop({
+    default: 'stargazers_count',
+  }) valueName?: string
 }
 </script>
 
@@ -30,7 +36,7 @@ export default class TopList extends Vue {
     align-items: center;
     &-left {
       flex: 3;
-      font-size: 12px;
+      font-size: 14px;
       font-weight: normal;
       overflow: hidden;
       text-overflow:ellipsis;
@@ -40,7 +46,7 @@ export default class TopList extends Vue {
       flex: 1;
       font-weight: normal;
       text-align: right;
-      font-size: 12px;
+      font-size: 14px;
       color: $TIP_COLOR;
     }
   }

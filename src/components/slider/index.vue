@@ -10,6 +10,12 @@
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
         <repos2></repos2>
       </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(commitsInfo).length > 0">
+        <commit></commit>
+      </swiper-slide>
+      <swiper-slide class="swiper-item" v-if="Object.keys(commitsInfo).length > 0">
+        <commit2></commit2>
+      </swiper-slide>
       <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
         <star></star>
       </swiper-slide>
@@ -30,6 +36,8 @@ import { Component, Vue } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
 import Repos from '@/components/Repos/index.vue';
 import Repos2 from '@/components/Repos2/index.vue';
+import Commit from '@/components/Commit/index.vue';
+import Commit2 from '@/components/Commit2/index.vue';
 import Star from '@/components/Star/index.vue';
 import Stared from '@/components/Stared/index.vue';
 import Orgs from '@/components/Orgs/index.vue';
@@ -46,6 +54,8 @@ import store from '@/store';
     Star,
     Stared,
     Orgs,
+    Commit,
+    Commit2,
   },
 })
 export default class MySlider extends Vue {
@@ -60,6 +70,9 @@ export default class MySlider extends Vue {
   }
   get userOrgs(): ORG[] {
     return store.userOrgs || [];
+  }
+  get commitsInfo(): any {
+    return store.commitsInfo || [];
   }
   swiperOption = {
     direction: 'vertical',

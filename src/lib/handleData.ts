@@ -150,10 +150,10 @@ export const handleCommitsData = (repos: REPO_COMMINT_INFO[]) => {
   });
   const commitsRanks = repos.sort((a: REPO_COMMINT_INFO, b: REPO_COMMINT_INFO) => b.total - a.total);
 
-  const weekRanks = Object.entries(time).sort((a: any, b: any) => b[1] - a[1]).slice(0, 5).map(((item: any) => {
+  const weekRanks = Object.entries(time).sort((a: any, b: any) => a[0] - b[0]).map(((item: any, index: number) => {
     const dayJsObject = dayjs.unix(item[0]);
     return {
-      week: `${dayJsObject.format('YYYY-MM-DD')} ~ ${dayJsObject.add(7, 'day').format('YYYY-MM-DD')}`,
+      week: dayJsObject.format(index === 0 ? 'YYYY-MM-DD' : 'MM-DD'),
       total: item[1],
     };
   }));
