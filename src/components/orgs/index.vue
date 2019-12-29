@@ -3,13 +3,20 @@
     <div slot="body" class="orgs">
       <my-title title="组织数据(总)"></my-title>
       <div class="container">
-        <card v-for="(item, index) in orgsInfo.orgs" :key="index" :alt="item.login">
-          <div slot="body" class="org-cell">
-            <div class="org-info">
-              <img class="org-avatar" :src="item.avatar_url"/>
-              <span class="org-name">{{item.name}}</span>
+        <template v-if="orgsInfo.orgs && orgsInfo.orgs.length > 0">
+          <card v-for="(item, index) in orgsInfo.orgs" :key="index" :alt="item.login" >
+            <div slot="body" class="org-cell">
+              <div class="org-info">
+                <img class="org-avatar" :src="item.avatar_url"/>
+                <span class="org-name">{{item.name}}</span>
+              </div>
+              <div class="org-desc">{{item.description}}</div>
             </div>
-            <div class="org-desc">{{item.description}}</div>
+          </card>
+        </template>
+        <card v-else>
+          <div slot="body" class="org-cell">
+            <div class="org-empty">你还没加入任何公开组织哦~</div>
           </div>
         </card>
       </div>
@@ -75,6 +82,12 @@ export default class Orgs extends Vue {
       }
       .org-desc {
         margin-top: 12px;
+        font-size: 14px;
+        color: $TIP_COLOR;
+      }
+      .org-empty {
+        margin-top: 12px;
+        text-align: center;
         font-size: 14px;
         color: $TIP_COLOR;
       }
