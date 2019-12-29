@@ -2,7 +2,7 @@
   <background>
     <div slot="body" class="info">
       <my-title title="基本信息"></my-title>
-      <img class="info-avatar" src="https://i.loli.net/2019/12/28/VU7qlFgfvCGt65N.jpg"/>
+      <img class="info-avatar" :src="userInfo.avatar_url"/>
       <div class="bio">{{userInfo.bio}}</div>
       <div class="container">
         <card>
