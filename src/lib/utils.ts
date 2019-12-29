@@ -40,7 +40,7 @@ export const timeoutFn = (promise: any) => Promise.race([
       reject(new Error('request timeout'));
     }, TIMEOUT);
   }),
-]).catch(() => {});
+]);
 
 export const inStartEndYear = (date?: string) => {
   const temp = dayjs(date);

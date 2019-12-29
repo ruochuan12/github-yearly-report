@@ -38,15 +38,15 @@
 <script lang="ts">
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import Info from '@/components/Info/index.vue';
-import Repos from '@/components/Repos/index.vue';
-import Repos2 from '@/components/Repos2/index.vue';
-import Commit from '@/components/Commit/index.vue';
-import Commit2 from '@/components/Commit2/index.vue';
-import Star from '@/components/Star/index.vue';
-import Stared from '@/components/Stared/index.vue';
-import Orgs from '@/components/Orgs/index.vue';
-import End from '@/components/End/index.vue';
+import Info from '@/components/info/index.vue';
+import Repos from '@/components/repos/index.vue';
+import Repos2 from '@/components/repos2/index.vue';
+import Commit from '@/components/commit/index.vue';
+import Commit2 from '@/components/commit2/index.vue';
+import Star from '@/components/star/index.vue';
+import Stared from '@/components/stared/index.vue';
+import Orgs from '@/components/orgs/index.vue';
+import End from '@/components/end/index.vue';
 import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
 import store, { fetchCommits, fetchRepos, fetchOrgs, updateState } from '@/store';
 
