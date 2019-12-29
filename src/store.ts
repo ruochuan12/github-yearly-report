@@ -146,55 +146,47 @@ export const fetchStars = async (octokit: any) => {
 };
 
 export const fetchOrgs = async (octokit: any) => {
-  const storageData = getStorage(ORGS_KEY);
-  if (storageData) {
-    st.orgsInfo = storageData;
-  } else {
-    const { orgs } = octokit;
-    let userInfo = getStorage(USERINFO_KEY);
-    if (!userInfo) {
-      await fetchUserInfo(octokit);
-      userInfo = getStorage(USERINFO_KEY);
-    }
-
-    const { login } = userInfo;
-
-    let originalData: any[] = [];
-    let pageNo: number = 1;
-    let hasNext: boolean = true;
-    const fn = async (page: number) => {
-      const res = await orgs.listForUser({
-        username: login,
-        per_page: 100,
-        page,
-      });
-
-      const { data } = res;
-      pageNo += 1;
-      originalData = originalData.concat(data);
-      if (data && (data.length === 0 || data.length < 100)) {
-        hasNext = false;
-      }
-    };
-    while (pageNo === 1 || hasNext) {
-      await fn(pageNo); // eslint-disable-line
-    }
-    const pickResult = originalData.map((item: ORG) => pick(item, ORGS_PICK_KEYS));
-    const orgsDetail: ORG[] = [];
-    for (const item of pickResult) {
-      const res = await orgs.get({  // eslint-disable-line
-        org: item.login,
-      });
-      const { data } = res;
-      orgsDetail.push(pick(data, ORGS_PICK_KEYS));
-    }
-    st.orgsInfo = {
-      orgs: orgsDetail,
-    };
-    setStorage(ORGS_KEY, {
-      orgs: orgsDetail,
-    }, ONE_DAY);
+  const { orgs } = octokit;
+  let userInfo = getStorage(USERINFO_KEY);
+  if (!userInfo) {
+    await fetchUserInfo(octokit);
+    userInfo = getStorage(USERINFO_KEY);
   }
+
+  const { login } = userInfo;
+
+  let originalData: any[] = [];
+  let pageNo: number = 1;
+  let hasNext: boolean = true;
+  const fn = async (page: number) => {
+    const res = await orgs.listForUser({
+      username: login,
+      per_page: 100,
+      page,
+    });
+
+    const { data } = res;
+    pageNo += 1;
+    originalData = originalData.concat(data);
+    if (data && (data.length === 0 || data.length < 100)) {
+      hasNext = false;
+    }
+  };
+  while (pageNo === 1 || hasNext) {
+    await fn(pageNo); // eslint-disable-line
+  }
+  const pickResult = originalData.map((item: ORG) => pick(item, ORGS_PICK_KEYS));
+  const orgsDetail: ORG[] = [];
+  for (const item of pickResult) {
+    const res = await orgs.get({  // eslint-disable-line
+      org: item.login,
+    });
+    const { data } = res;
+    orgsDetail.push(pick(data, ORGS_PICK_KEYS));
+  }
+  st.orgsInfo = {
+    orgs: orgsDetail,
+  };
   st.status = HOME_STATUS.FINISH;
 };
 
