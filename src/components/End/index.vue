@@ -14,8 +14,11 @@
          <card>
           <div slot="body" class="end-cell">
             <div class="content">去年就有这样的想法，今年花了一周末的时间玩了一下。</div>
-            <div class="content">在浏览器做的请求和处理数据，还是有点压力，有待优化。</div>
-            <div class="content">基本是想到哪写到哪，不足之处欢迎指出和 PR。</div>
+            <div class="content">不足之处欢迎指出和 PR。</div>
+            <div class="content">也可以截图保存二维码分享给朋友们~</div>
+            <div class="content">
+              <div class="qrcode"><img class="qrcode-img" src="https://i.loli.net/2019/12/29/LAvMbhSGXVRjNFz.png"/></div>
+            </div>
           </div>
         </card>
          <card>
@@ -75,7 +78,7 @@ export default class Orgs extends Vue {
 .container {
   height: 0;
   flex: 1;
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   padding-bottom: 10px;
   overflow-y: scroll;
   .end-cell {
@@ -93,6 +96,14 @@ export default class Orgs extends Vue {
         &-img {
           width: 300px;
           height: 95px;
+        }
+      }
+      .qrcode {
+        display: flex;
+        justify-content: center;
+        &-img {
+          width: 120px;
+          height: 120px;
         }
       }
       .star-btn {
