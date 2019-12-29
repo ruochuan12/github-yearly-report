@@ -23,7 +23,7 @@
         <commit2 v-if="Object.keys(commitsInfo).length > 0"></commit2>
       </swiper-slide>
       <swiper-slide class="swiper-item">
-        <orgs v-if="Object.keys(userOrgs).length > 0"></orgs>
+        <orgs v-if="Object.keys(orgsInfo).length > 0"></orgs>
       </swiper-slide>
       <swiper-slide class="swiper-item">
         <end></end>
@@ -47,7 +47,7 @@ import Star from '@/components/star/index.vue';
 import Stared from '@/components/stared/index.vue';
 import Orgs from '@/components/orgs/index.vue';
 import End from '@/components/end/index.vue';
-import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
+import { REPOS_INFO, USERINFO, STARS_INFO, ORG, ORGS_INFO } from '@/api/interface';
 import store, { fetchCommits, fetchRepos, fetchOrgs, updateState } from '@/store';
 
 import 'swiper/dist/css/swiper.css';
@@ -78,8 +78,8 @@ export default class MySlider extends Vue {
   get starsInfo(): STARS_INFO {
     return store.starsInfo || {};
   }
-  get userOrgs(): ORG[] {
-    return store.userOrgs || [];
+  get orgsInfo(): ORGS_INFO {
+    return store.orgsInfo || {};
   }
   get commitsInfo(): any {
     return store.commitsInfo || [];
@@ -99,7 +99,7 @@ export default class MySlider extends Vue {
       updateState({ status: HOME_STATUS.BEGIN });
       return;
     }
-    if (activeIndex === 7 && Object.keys(this.userOrgs).length === 0) {
+    if (activeIndex === 7 && Object.keys(this.orgsInfo).length === 0) {
       updateState({ status: HOME_STATUS.BEGIN });
     }
   }

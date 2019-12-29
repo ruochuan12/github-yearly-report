@@ -8,7 +8,7 @@ import {
   USERINFO_PICK_KEYS,
   ORGS_PICK_KEYS,
 } from '@/lib/constant';
-import { USERINFO, REPO, REPOS_INFO, STARS_INFO, ORG, COMMIT_ACTIVITY_ITEM } from '@/api/interface';
+import { USERINFO, REPO, REPOS_INFO, STARS_INFO, ORG, COMMIT_ACTIVITY_ITEM, ORGS_INFO } from '@/api/interface';
 import { timeoutFn, pick, inStartEndYear } from './lib/utils';
 import { handleReposData, handleStarsData, handleCommitsData } from '@/lib/handleData';
 import { getStorage, setStorage } from './lib/storage';
@@ -25,7 +25,7 @@ interface STORE {
   issues?: any[]
   status?: number
   starsInfo?: STARS_INFO
-  userOrgs?: ORG[]
+  orgsInfo?: ORGS_INFO
   commitsInfo?: any
   octokit?: any
 }
@@ -36,7 +36,7 @@ const app = new Vue<STORE>({
     status: 0,
     reposInfo: {},
     starsInfo: {},
-    userOrgs: [],
+    orgsInfo: {},
     commitsInfo: {},
     octokit: null,
   },
@@ -148,7 +148,7 @@ export const fetchStars = async (octokit: any) => {
 export const fetchOrgs = async (octokit: any) => {
   const storageData = getStorage(ORGS_KEY);
   if (storageData) {
-    st.userOrgs = storageData;
+    st.orgsInfo = storageData;
   } else {
     const { orgs } = octokit;
     let userInfo = getStorage(USERINFO_KEY);
@@ -188,8 +188,12 @@ export const fetchOrgs = async (octokit: any) => {
       const { data } = res;
       orgsDetail.push(pick(data, ORGS_PICK_KEYS));
     }
-    st.userOrgs = orgsDetail;
-    setStorage(ORGS_KEY, orgsDetail, ONE_DAY);
+    st.orgsInfo = {
+      orgs: orgsDetail,
+    };
+    setStorage(ORGS_KEY, {
+      orgs: orgsDetail,
+    }, ONE_DAY);
   }
   st.status = HOME_STATUS.FINISH;
 };

@@ -3,7 +3,7 @@
     <div slot="body" class="orgs">
       <my-title title="组织数据(总)"></my-title>
       <div class="container">
-        <card v-for="(item, index) in userOrgs" :key="index" :alt="item.login">
+        <card v-for="(item, index) in orgsInfo.orgs" :key="index" :alt="item.login">
           <div slot="body" class="org-cell">
             <div class="org-info">
               <img class="org-avatar" :src="item.avatar_url"/>
@@ -36,8 +36,8 @@ import { toPercent } from '../../lib/utils';
   },
 })
 export default class Orgs extends Vue {
-  get userOrgs(): ORG[] {
-    return store.userOrgs || [];
+  get orgsInfo(): any {
+    return store.orgsInfo || {};
   }
   mounted() {}
 }
