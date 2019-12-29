@@ -4,11 +4,13 @@
 
 通过 GitHub 开放 API 来拉一些数据并且进行分析。
 
-详细说明待续...
-
 ## 在线体验
 
 ![Demo](https://i.loli.net/2019/12/29/LAvMbhSGXVRjNFz.png)
+
+## 效果
+
+[你的 2019 年 GitHub 年终总结来了 ~](https://mp.weixin.qq.com/s/v_v5BIFrH2icRAI-iHh0WQ)
 
 ## 公众号
 
