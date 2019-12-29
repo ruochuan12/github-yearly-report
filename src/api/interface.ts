@@ -74,3 +74,7 @@ export interface REPO_COMMINT_INFO {
   commits?: COMMIT_ACTIVITY_ITEM[]
   total: number
 }
+
+export interface ORGS_INFO {
+  orgs?: ORG[]
+}
