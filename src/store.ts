@@ -157,14 +157,14 @@ export const fetchOrgs = async (octokit: any) => {
       userInfo = getStorage(USERINFO_KEY);
     }
 
-    const { name } = userInfo;
+    const { login } = userInfo;
 
     let originalData: any[] = [];
     let pageNo: number = 1;
     let hasNext: boolean = true;
     const fn = async (page: number) => {
       const res = await orgs.listForUser({
-        username: name,
+        username: login,
         per_page: 100,
         page,
       });
@@ -220,7 +220,7 @@ export const fetchCommits = async (octokit: any) => {
       let hasNext: boolean = true;
       const fn = async (page: number) => { // eslint-disable-line
         const res = await repos.getCommitActivityStats({
-          owner: userInfo.name,
+          owner: userInfo.login,
           repo: repo.name,
           per_page: 100,
           page,
