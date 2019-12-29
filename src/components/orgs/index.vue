@@ -8,9 +8,9 @@
             <div slot="body" class="org-cell">
               <div class="org-info">
                 <img class="org-avatar" :src="item.avatar_url"/>
-                <span class="org-name">{{item.name}}</span>
+                <span class="org-name">{{item.name || item.login || '神秘组织'}}</span>
               </div>
-              <div class="org-desc">{{item.description}}</div>
+              <div class="org-desc">{{item.description || '这个组织有点懒，没有留下任何信息~'}}</div>
             </div>
           </card>
         </template>
@@ -19,6 +19,7 @@
             <div class="org-empty">你还没加入任何公开组织哦~</div>
           </div>
         </card>
+        <qr-code/>
       </div>
     </div>
   </background>
@@ -30,6 +31,7 @@ import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
 import TopList from '@/components/common/topList.vue';
+import QrCode from '@/components/common/qrcode.vue';
 import store from '@/store';
 import { REPO, REPOS_INFO, STARS_INFO, ORG } from '@/api/interface';
 import { COLORS } from '../../lib/constant';
@@ -40,6 +42,7 @@ import { toPercent } from '../../lib/utils';
     Background,
     Card,
     MyTitle: Title,
+    QrCode,
   },
 })
 export default class Orgs extends Vue {

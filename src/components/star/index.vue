@@ -26,6 +26,7 @@
             </div>
           </div>
         </card>
+        <qr-code/>
       </div>
     </div>
   </background>
@@ -37,6 +38,7 @@ import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
 import TopList from '@/components/common/topList.vue';
+import QrCode from '@/components/common/qrcode.vue';
 import store from '@/store';
 import { REPO, REPOS_INFO, STARS_INFO } from '@/api/interface';
 import { COLORS } from '../../lib/constant';
@@ -48,6 +50,7 @@ import { toPercent } from '../../lib/utils';
     Card,
     MyTitle: Title,
     TopList,
+    QrCode,
   },
 })
 export default class Stars extends Vue {
