@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <home v-if="status === HOME_STATUS.INIT || status === HOME_STATUS.BEGIN"></home>
-    <my-slider v-if="status === HOME_STATUS.FINISH"></my-slider>
+    <home v-if="status === HOME_STATUS.INIT"></home>
+    <my-slider v-if="status !== HOME_STATUS.INIT"></my-slider>
     <div v-if="status === HOME_STATUS.ERROR">
       不好意思，访问 GitHub 出错了，请重试 ~
     </div>

@@ -30,7 +30,7 @@
       font-size: 14px;
     }
     .lucky-btn {
-        margin: 80px auto 0;
+        margin: 60px auto 0;
         width: 140px;
         padding: 8px 4px;
         text-align: center;
@@ -46,6 +46,17 @@
           box-shadow: 0 0 0 #888;
         }
     }
+    .star-btn {
+      height: 24px;
+      line-height: 24px;
+      margin-left: 12px;
+      padding: 0 12px;
+      border-radius: 4px;
+      text-align: center;
+      background: $BASE_COLOR;
+      color: #FFFFFF;
+      font-size: 12px;
+    }
     .tip {
       height: 36px;
       line-height: 36px;
@@ -55,6 +66,9 @@
       right: 0;
       font-size: 12px;
       color: $TIP_COLOR;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
   .me {

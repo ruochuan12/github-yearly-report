@@ -7,7 +7,8 @@
       <div class="sub-title">非官方</div>
       <div class="sub-title">Data From GitHub</div>
       <div class="lucky-btn" @click="go">开启时光机</div>
-      <div class="tip">静态托管 GitHub Pages，放心食用</div>
+      <div class="tip">静态托管 GitHub Pages，放心食用
+      <div class="star-btn" @click="star">Star</div></div>
     </div>
     <div class="me" @click="toAxuebinPage">
       <img class="avatar" src="https://i.loli.net/2019/12/28/VU7qlFgfvCGt65N.jpg"/>
@@ -22,7 +23,7 @@ import { Toast, Dialog } from 'vant';
 import { YEAR_START_FORMAT, GITHUB_TOKEN, GITHUB_CODE, HOME_STATUS } from '@/lib/constant';
 import { qs } from '@/lib/utils';
 import { login, fetchToken, authenticate } from '@/lib/auth';
-import { updateState, fetchAll } from '@/store';
+import store, { updateState, fetchAll } from '@/store';
 
 @Component({
   components: {
@@ -32,6 +33,9 @@ import { updateState, fetchAll } from '@/store';
 export default class Home extends Vue {
   status: number = HOME_STATUS.INIT;
   year: number = YEAR_START_FORMAT;
+  get octokit() {
+    return store.octokit;
+  }
   toAxuebinPage() {
     window.location.href = 'https://github.com/axuebin';
   }
@@ -66,6 +70,17 @@ export default class Home extends Vue {
     const octokit = await authenticate();
     Toast.clear();
     fetchAll(octokit);
+  }
+  async star() {
+    let { octokit } = this;
+    if (!this.octokit) {
+      octokit = await authenticate();
+    }
+    await octokit.activity.starRepo({
+      owner: 'axuebin',
+      repo: 'github-yearly-report',
+    });
+    Toast('谢谢啦~');
   }
   mounted() {
     const token = window.sessionStorage.getItem(GITHUB_TOKEN);

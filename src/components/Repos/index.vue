@@ -23,12 +23,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
-import store from '@/store';
-import { YEAR_LAST_FORMAT, YEAR_START_FORMAT, COLORS } from '@/lib/constant';
+import store, { updateState, fetchRepos } from '@/store';
+import { YEAR_LAST_FORMAT, YEAR_START_FORMAT, COLORS, HOME_STATUS } from '@/lib/constant';
 import { REPOS_INFO, REPO } from '@/api/interface';
 import { toPercent } from '../../lib/utils';
 
@@ -73,8 +73,8 @@ export default class ReposTotal extends Vue {
   }
   YEAR_START_FORMAT = YEAR_START_FORMAT;
   get repos(): REPO[] {
-    if (store.reposInfo && store.reposInfo.repos) {
-      return store.reposInfo.repos;
+    if (this.reposInfo && this.reposInfo.repos) {
+      return this.reposInfo.repos;
     }
     return [];
   }

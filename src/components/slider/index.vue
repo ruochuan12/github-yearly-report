@@ -1,29 +1,29 @@
 <template>
   <div class="my-slider">
-    <swiper :options="swiperOption" class="swiper-box">
-      <swiper-slide class="swiper-item" v-if="Object.keys(userInfo).length > 0">
-        <info></info>
+    <swiper :options="swiperOption" class="swiper-box" ref="mySwiper">
+      <swiper-slide class="swiper-item">
+        <info v-if="Object.keys(userInfo).length > 0"></info>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
-        <repos></repos>
+      <swiper-slide class="swiper-item">
+        <repos v-if="Object.keys(reposInfo).length > 0"></repos>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
-        <repos2></repos2>
+      <swiper-slide class="swiper-item" >
+        <repos2 v-if="Object.keys(reposInfo).length > 0"></repos2>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(commitsInfo).length > 0">
-        <commit></commit>
+      <swiper-slide class="swiper-item">
+        <star v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0"></star>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(commitsInfo).length > 0">
-        <commit2></commit2>
+      <swiper-slide class="swiper-item">
+        <stared v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0"></stared>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0">
-        <star></star>
+      <swiper-slide class="swiper-item">
+        <commit v-if="Object.keys(commitsInfo).length > 0"></commit>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(reposInfo).length > 0 && Object.keys(starsInfo).length > 0">
-        <stared></stared>
+      <swiper-slide class="swiper-item">
+        <commit2 v-if="Object.keys(commitsInfo).length > 0"></commit2>
       </swiper-slide>
-      <swiper-slide class="swiper-item" v-if="Object.keys(userOrgs).length > 0">
-        <orgs></orgs>
+      <swiper-slide class="swiper-item">
+        <orgs v-if="Object.keys(userOrgs).length > 0"></orgs>
       </swiper-slide>
       <swiper-slide class="swiper-item">
         <end></end>
@@ -37,7 +37,7 @@
 
 <script lang="ts">
 import { swiper, swiperSlide } from 'vue-awesome-swiper';
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import Info from '@/components/Info/index.vue';
 import Repos from '@/components/Repos/index.vue';
 import Repos2 from '@/components/Repos2/index.vue';
@@ -48,9 +48,10 @@ import Stared from '@/components/Stared/index.vue';
 import Orgs from '@/components/Orgs/index.vue';
 import End from '@/components/End/index.vue';
 import { REPOS_INFO, USERINFO, STARS_INFO, ORG } from '@/api/interface';
-import store from '@/store';
+import store, { fetchCommits, fetchRepos, fetchOrgs, updateState } from '@/store';
 
 import 'swiper/dist/css/swiper.css';
+import { HOME_STATUS } from '../../lib/constant';
 
 @Component({
   components: {
@@ -83,6 +84,25 @@ export default class MySlider extends Vue {
   get commitsInfo(): any {
     return store.commitsInfo || [];
   }
+  onSLideChange() {
+    const swiperRef = (this.$refs.mySwiper as any).swiper;
+    const { activeIndex } = swiperRef;
+    if (activeIndex === 1 && Object.keys(this.reposInfo).length === 0) {
+      updateState({ status: HOME_STATUS.BEGIN });
+      return;
+    }
+    if (activeIndex === 3 && Object.keys(this.starsInfo).length === 0) {
+      updateState({ status: HOME_STATUS.BEGIN });
+      return;
+    }
+    if (activeIndex === 5 && Object.keys(this.commitsInfo).length === 0) {
+      updateState({ status: HOME_STATUS.BEGIN });
+      return;
+    }
+    if (activeIndex === 7 && Object.keys(this.userOrgs).length === 0) {
+      updateState({ status: HOME_STATUS.BEGIN });
+    }
+  }
   swiperOption = {
     mousewheel: true,
     pagination: {
@@ -92,6 +112,9 @@ export default class MySlider extends Vue {
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev',
+    },
+    on: {
+      slideChange: this.onSLideChange,
     },
   }
 }

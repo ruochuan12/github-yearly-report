@@ -62,7 +62,7 @@ export const updateState = (payload: ANY_OBJECT) => {
   });
 };
 
-export const fetchUserInfo = async (octokit: any) => {
+export const fetchUserInfo = (octokit: any) => new Promise(async (resolve, reject) => {
   const userInfoStorage = getStorage(USERINFO_KEY);
   if (userInfoStorage) {
     st.userInfo = userInfoStorage;
@@ -75,7 +75,9 @@ export const fetchUserInfo = async (octokit: any) => {
       setStorage(USERINFO_KEY, data, ONE_DAY);
     }
   }
-};
+  st.status = HOME_STATUS.FINISH;
+  resolve();
+});
 
 export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) => {
   const reposStorage = getStorage(REPOS_KEY);
@@ -107,10 +109,11 @@ export const fetchRepos = (octokit: any) => new Promise(async (resolve, reject) 
     st.reposInfo = reposHandleResult;
     setStorage(REPOS_KEY, reposHandleResult, ONE_DAY);
   }
+  st.status = HOME_STATUS.FINISH;
   resolve();
 });
 
-export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) => {
+export const fetchStars = async (octokit: any) => {
   const storageData = getStorage(STARS_KEY);
   if (storageData) {
     st.starsInfo = storageData;
@@ -139,10 +142,10 @@ export const fetchStars = (octokit: any) => new Promise(async (resolve, reject) 
     st.starsInfo = handleResultData;
     setStorage(STARS_KEY, handleResultData, ONE_DAY);
   }
-  resolve();
-});
+  st.status = HOME_STATUS.FINISH;
+};
 
-export const fetchOrgs = (octokit: any) => new Promise(async (resolve, reject) => {
+export const fetchOrgs = async (octokit: any) => {
   const storageData = getStorage(ORGS_KEY);
   if (storageData) {
     st.userOrgs = storageData;
@@ -188,10 +191,10 @@ export const fetchOrgs = (octokit: any) => new Promise(async (resolve, reject) =
     st.userOrgs = orgsDetail;
     setStorage(ORGS_KEY, orgsDetail, ONE_DAY);
   }
-  resolve();
-});
+  st.status = HOME_STATUS.FINISH;
+};
 
-export const fetchCommits = (octokit: any) => new Promise(async (resolve, reject) => {
+export const fetchCommits = async (octokit: any) => {
   const storageData = getStorage(COMMITS_KEY);
   if (storageData) {
     st.commitsInfo = storageData;
@@ -246,25 +249,17 @@ export const fetchCommits = (octokit: any) => new Promise(async (resolve, reject
     st.commitsInfo = result;
     setStorage(COMMITS_KEY, result, ONE_DAY);
   }
-  resolve();
-});
+  st.status = HOME_STATUS.FINISH;
+};
 
 export const fetchAll = async (octokit: any) => {
   try {
     st.octokit = octokit;
     await fetchUserInfo(octokit);
-    const all = [
-      fetchRepos(octokit),
-      fetchStars(octokit),
-      fetchOrgs(octokit),
-      fetchCommits(octokit),
-    ];
-    Promise.all(all).then(res => {
-      st.status = HOME_STATUS.FINISH;
-    }).catch(e => {
-      console.log(e);
-      st.status = HOME_STATUS.ERROR;
-    });
+    fetchStars(octokit);
+    fetchOrgs(octokit);
+    await fetchRepos(octokit);
+    fetchCommits(octokit);
   } catch (e) {
     st.status = HOME_STATUS.ERROR;
   }
