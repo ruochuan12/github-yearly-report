@@ -30,7 +30,7 @@ export default class TopList extends Vue {
 .top-list {
   width: 100%;
   &-item {
-    margin-top: 4px;
+    margin-top: 2px;
     height: 24px;
     display: flex;
     align-items: center;

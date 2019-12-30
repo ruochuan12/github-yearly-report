@@ -17,6 +17,7 @@
             </div>
           </div>
         </card>
+        <qr-code/>
       </div>
     </div>
   </background>
@@ -27,6 +28,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
+import QrCode from '@/components/common/qrcode.vue';
 import store, { updateState, fetchRepos } from '@/store';
 import { YEAR_LAST_FORMAT, YEAR_START_FORMAT, COLORS, HOME_STATUS } from '@/lib/constant';
 import { REPOS_INFO, REPO } from '@/api/interface';
@@ -37,6 +39,7 @@ import { toPercent } from '../../lib/utils';
     Background,
     Card,
     MyTitle: Title,
+    QrCode,
   },
 })
 export default class ReposTotal extends Vue {
@@ -117,7 +120,7 @@ export default class ReposTotal extends Vue {
   overflow-y: scroll;
   .repos-total {
     &-cell {
-      padding: 8px 16px;
+      padding: 8px 16px 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -134,7 +137,7 @@ export default class ReposTotal extends Vue {
     }
     &-language {
       width: 100%;
-      height: 160px;
+      height: 140px;
     }
   }
 }

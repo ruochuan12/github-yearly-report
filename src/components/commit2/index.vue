@@ -26,6 +26,7 @@
             </div>
           </div>
         </card>
+        <qr-code/>
       </div>
     </div>
   </background>
@@ -36,6 +37,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import Background from '@/components/common/background.vue';
 import Card from '@/components/common/card.vue';
 import Title from '@/components/common/title.vue';
+import QrCode from '@/components/common/qrcode.vue';
 import store from '@/store';
 import { COLORS, YEAR_START_FORMAT } from '../../lib/constant';
 
@@ -44,6 +46,7 @@ import { COLORS, YEAR_START_FORMAT } from '../../lib/constant';
     Background,
     Card,
     MyTitle: Title,
+    QrCode,
   },
 })
 export default class Commit2 extends Vue {
