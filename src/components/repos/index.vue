@@ -120,7 +120,7 @@ export default class ReposTotal extends Vue {
   overflow-y: scroll;
   .repos-total {
     &-cell {
-      padding: 8px 16px;
+      padding: 8px 16px 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -137,7 +137,7 @@ export default class ReposTotal extends Vue {
     }
     &-language {
       width: 100%;
-      height: 160px;
+      height: 140px;
     }
   }
 }

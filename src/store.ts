@@ -185,7 +185,7 @@ export const fetchOrgs = async (octokit: any) => {
     orgsDetail.push(pick(data, ORGS_PICK_KEYS));
   }
   st.orgsInfo = {
-    orgs: [],
+    orgs: orgsDetail,
   };
   st.status = HOME_STATUS.FINISH;
 };

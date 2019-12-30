@@ -172,7 +172,7 @@ export default class ReposTotal extends Vue {
         color: $MAIN_TEXT_COLOR;
       }
       .name {
-        font-size: 22px;
+        font-size: 20px;
       }
       .tip {
         margin-top: 6px;

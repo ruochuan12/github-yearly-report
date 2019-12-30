@@ -139,7 +139,7 @@ export default class Stars extends Vue {
   overflow-y: scroll;
   .stars {
     &-cell {
-      padding: 8px 16px;
+      padding: 8px 16px 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -164,7 +164,7 @@ export default class Stars extends Vue {
     }
     &-language {
       width: 100%;
-      height: 160px;
+      height: 140px;
     }
   }
 }
